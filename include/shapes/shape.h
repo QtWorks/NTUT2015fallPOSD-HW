@@ -10,22 +10,34 @@ using std::vector;
 using std::ostream;
 
 class BoundingBox;
+
 class GraphicsVisitor;
 
 class Shape {
 private:
-	string _name;
+    string _name;
 public:
-	Shape(string name);
-	string name();
-	virtual string print();
-	virtual int area() const;
-	virtual BoundingBox getBoundingBox() const;
-	virtual string describe(){ return string("");};
+    Shape(string name);
+
+    string name();
+
+    virtual string print();
+
+    virtual int area() const;
+
+    virtual BoundingBox getBoundingBox() const;
+
+    virtual string describe() { return string(""); };
+
+    virtual int getX() const { return 0; }
+
+    virtual int getY() { return 0; }
 };
 
 string printShape(vector<Shape *> shapes);
+
 int areaSum(vector<Shape *> shapes);
-ostream & operator << (ostream & os, Shape & s);
+
+ostream &operator<<(ostream &os, Shape &s);
 
 #endif // SHAPE_H

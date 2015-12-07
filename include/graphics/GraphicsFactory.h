@@ -9,17 +9,22 @@ class Graphics;
 
 using std::string;
 
-class GraphicsFactory
-{
-    public:
-        GraphicsFactory();
-        Graphics *buildGraphicsFromFile(const char * fileName);
-        string fileContentsAsString(const char *fileName);
-        Graphics *extractGraphicsFromOneLine(std::string &contents, int &level);
-        void compose();
-        std::stack<std::pair<int,Graphics *>> &getBuildStack(){return _buildStask; }
-    private:
-        std::stack<std::pair<int,Graphics *>> _buildStask;
+class GraphicsFactory {
+public:
+    GraphicsFactory();
+
+    Graphics *buildGraphicsFromFile(const char *fileName);
+
+    string fileContentsAsString(const char *fileName);
+
+    virtual Graphics *extractGraphicsFromOneLine(std::string &contents, int &level);
+
+    void compose();
+
+    std::stack<std::pair<int, Graphics *>> &getBuildStack() { return _buildStask; }
+
+private:
+    std::stack<std::pair<int, Graphics *>> _buildStask;
 };
 
 #endif // GRAPHICSFACTORY_H

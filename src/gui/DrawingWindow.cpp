@@ -1,6 +1,5 @@
 #include "DrawingWindow.h"
 
-#include <iostream>
 #include <fstream>
 
 #include <QMenuBar>
@@ -9,9 +8,12 @@
 #include <QFileDialog>
 #include <QtWidgets/qtoolbutton.h>
 
+#include "gui/shapegraphicitem/CircleQGraphicsItem.h"
+
 #include "QtGraphicsViewVisitor.h"
 #include "DescriptionVisitor.h"
 #include "GraphicsFactory.h"
+#include "QtGraphicsFactory.h"
 
 #include "compositegraphics.h"
 #include "simplegraphics.h"
@@ -19,14 +21,15 @@
 using namespace std;
 
 DrawingWindow::DrawingWindow() {
-    this->setWindowTitle("POSD Homework#4");
+    this->setWindowTitle("POSD Homework#5");
     this->resize(800, 600);
+
+    this->activateGraphics = new CompositeGraphics();
 
     createMenuBar();
     createToolMenuBar();
     createGraphicsView();
 }
-
 
 DrawingWindow::~DrawingWindow() {
 
@@ -35,8 +38,8 @@ DrawingWindow::~DrawingWindow() {
 void DrawingWindow::createMenuBar() {
     fileMenu = this->menuBar()->addMenu("File");
     aboutMenu = this->menuBar()->addMenu("About");
+    createShapeMenu = this->menuBar()->addMenu("Create Shape");
     initializeMenuAction();
-
 }
 
 void DrawingWindow::initializeMenuAction() {
@@ -44,22 +47,46 @@ void DrawingWindow::initializeMenuAction() {
     saveFileAction = new QAction(QIcon("./icon/Save.png"), "saveFile", this);
     aboutDeveloperAction = new QAction("aboutDeveloper", this);
 
-    setConnect();
+    createSquareAction = new QAction("createSquare", this);
+    createRectangleAction = new QAction("createRectangle", this);
+    createCircleAction = new QAction("createCircle", this);
 
-    fileMenu->addAction(loadFileAction);
-    fileMenu->addAction(saveFileAction);
-    aboutMenu->addAction(aboutDeveloperAction);
+    setConnect();
+    AttachAction();
 }
 
 void DrawingWindow::setConnect() {
     connect(aboutDeveloperAction, SIGNAL(triggered(bool)), this, SLOT(doAboutDeveloper()));
     connect(loadFileAction, SIGNAL(triggered(bool)), this, SLOT(doOpenFile()));
     connect(saveFileAction, SIGNAL(triggered(bool)), this, SLOT(doSaveFile()));
+    connect(createSquareAction, SIGNAL(triggered(bool)), this, SLOT(doCreateSquare()));
+}
+
+void DrawingWindow::AttachAction() const {
+    fileMenu->addAction(loadFileAction);
+    fileMenu->addAction(saveFileAction);
+
+    aboutMenu->addAction(aboutDeveloperAction);
+
+    createShapeMenu->addAction(createSquareAction);
+    createShapeMenu->addAction(createRectangleAction);
+    createShapeMenu->addAction(createCircleAction);
 }
 
 void DrawingWindow::createGraphicsView() {
     mainWidget = new DrawingArea();
     this->setCentralWidget(mainWidget);
+}
+
+void DrawingWindow::resizeScene() const {
+    QRectF p = mainWidget->getScene()->itemsBoundingRect();
+    int x = p.center().toPoint().x();
+    int y = p.center().toPoint().y();
+
+    int widgetX = mainWidget->width();
+    int widgetY = mainWidget->height();
+
+//    mainWidget->getScene()->setSceneRect(x - widgetX / 2, y - widgetY / 2, widgetX, widgetY);
 }
 
 void DrawingWindow::createToolMenuBar() {
@@ -82,11 +109,11 @@ void DrawingWindow::doOpenFile() {
 
     filename = QFileDialog::getOpenFileName(this, "Choose Graphics File", currentPath, "Graphics Files (*.txt)");
 
-    if(filename == ""){
+    if (filename == "") {
         showWarningDialog("Not Selected any file");
         return;
     }
-    loadFileToDisplay(filename.toUtf8().constData());
+    loadFile(filename.toUtf8().constData());
 }
 
 QString DrawingWindow::getCurrentPath() {
@@ -101,9 +128,10 @@ void DrawingWindow::doSaveFile() {
         QString currentPath = getCurrentPath();
         QString filename;
 
-        filename = QFileDialog::getSaveFileName(this, "Choose Save Path and Name", currentPath, "Graphics Files (*.txt)");
+        filename = QFileDialog::getSaveFileName(this, "Choose Save Path and Name", currentPath,
+                                                "Graphics Files (*.txt)");
 
-        if(filename == ""){
+        if (filename == "") {
             showWarningDialog("not specific any filename");
             return;
         }
@@ -117,26 +145,37 @@ void DrawingWindow::doSaveFile() {
     }
 }
 
-void DrawingWindow::loadFileToDisplay(std::string filename) {
-
-    mainWidget->getScene()->clear();
-
-    GraphicsVisitor *visitor = new QtGraphicsViewVisitor(mainWidget->getScene());
-    GraphicsFactory graphicsFactory;
-
+void DrawingWindow::loadFile(std::string filename) {
+    GraphicsFactory *graphicsFactory = new QtGraphicsFactory;
     try {
-        Graphics *graphics = graphicsFactory.buildGraphicsFromFile(filename.c_str());
+        Graphics *graphics = graphicsFactory->buildGraphicsFromFile(filename.c_str());
         this->activateGraphics = graphics;
-    } catch (std::string e) {
+    }
+    catch (std::string e) {
         cout << e << endl;
         showWarningDialog(e);
         return;
     }
+    updateScene();
+}
 
+void DrawingWindow::updateScene() {
+    mainWidget->getScene()->clear();
+    GraphicsVisitor *visitor = new QtGraphicsViewVisitor(mainWidget->getScene());
+    cout << "test";
     activateGraphics->accept(*visitor);
     mainWidget->getScene()->update();
+    resizeScene();
 }
 
 void DrawingWindow::showWarningDialog(string message) {
     QMessageBox::warning(0, "Warning", QString(message.c_str()));
 }
+
+void DrawingWindow::doCreateSquare() {
+    Shape *square = new Square(0, 0, 50);
+    this->activateGraphics->add(new SimpleGraphics(square));
+    updateScene();
+}
+
+

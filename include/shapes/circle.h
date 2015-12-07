@@ -14,8 +14,8 @@ public:
 	virtual int area() const;
 	virtual BoundingBox getBoundingBox() const;
 	virtual string describe();
-    int getX() const;
-    int getY() const;
+	virtual int getX() const;
+	virtual int getY() const;
     int getRadius() const;
 };
 

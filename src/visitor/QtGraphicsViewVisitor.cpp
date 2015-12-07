@@ -1,14 +1,12 @@
 #include "QtGraphicsViewVisitor.h"
 
-#include <iostream>
-
 #include "simplegraphics.h"
 #include "compositegraphics.h"
 
 using namespace std;
 
 QtGraphicsViewVisitor::QtGraphicsViewVisitor(QGraphicsScene *scene)
-        : GraphicsVisitor(), scene(scene)  {
+        : GraphicsVisitor(), scene(scene) {
     greenPen = new QPen(Qt::green);
     bluePen = new QPen(Qt::blue);
 
@@ -36,7 +34,7 @@ void QtGraphicsViewVisitor::drawCircle(Circle &shape) {
     int x = shape.getX();
     int y = shape.getY();
     int r = shape.getRadius();
-    scene->addEllipse(x-r , y-r , r*2, r*2, *bluePen);
+    scene->addEllipse(x - r, y - r, r * 2, r * 2, *bluePen);
 }
 
 void QtGraphicsViewVisitor::drawRectangle(Rectangle &shape) {
@@ -44,14 +42,14 @@ void QtGraphicsViewVisitor::drawRectangle(Rectangle &shape) {
     int y = shape.getY();
     int w = shape.getWidth();
     int h = shape.getHeight();
-    scene->addRect(x , y , w, h, *bluePen);
+    scene->addRect(x, y, w, h, *bluePen);
 }
 
 void QtGraphicsViewVisitor::drawSquare(Square &shape) {
     int x = shape.getX();
     int y = shape.getY();
     int l = shape.getLength();
-    scene->addRect(x , y , l, l,*bluePen);
+    scene->addRect(x, y, l, l, *bluePen);
 }
 
 void QtGraphicsViewVisitor::drawBoundingBox(BoundingBox &boundingBox) {
@@ -59,5 +57,5 @@ void QtGraphicsViewVisitor::drawBoundingBox(BoundingBox &boundingBox) {
     int y = boundingBox.getY();
     int w = boundingBox.getWidth();
     int h = boundingBox.getHeight();
-    scene->addRect(x, y, w, h,*greenPen);
+    scene->addRect(x, y, w, h, *greenPen);
 }

@@ -7,19 +7,28 @@
 
 class Rectangle : public Shape {
 private:
-	Point _llc;
-	int _l, _w;
+    Point _llc;
+    int _l, _w;
 public:
-	Rectangle(int x, int y, int w, int h);
-	Rectangle(Point p, int w, int h);
-	string print();
-	int area() const;
-	virtual BoundingBox getBoundingBox() const;
-	virtual string describe();
-	int getX();
-	int getY();
-	int getWidth();
-	int getHeight();
+    Rectangle(int x, int y, int w, int h);
+
+    Rectangle(Point p, int w, int h);
+
+    string print();
+
+    int area() const;
+
+    virtual BoundingBox getBoundingBox() const;
+
+    virtual string describe();
+
+    virtual int getX() const;
+
+    virtual int getY() const;
+
+    int getWidth();
+
+    int getHeight();
 };
 
 #endif // RECTANGLE_H
