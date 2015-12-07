@@ -10,6 +10,7 @@ using std::vector;
 using std::ostream;
 
 class BoundingBox;
+class GraphicsVisitor;
 
 class Shape {
 private:
@@ -20,6 +21,7 @@ public:
 	virtual string print();
 	virtual int area() const;
 	virtual BoundingBox getBoundingBox() const;
+	virtual string describe(){};
 };
 
 string printShape(vector<Shape *> shapes);

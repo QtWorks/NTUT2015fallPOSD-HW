@@ -18,3 +18,9 @@ int Square::area() const {
 BoundingBox Square::getBoundingBox() const {
 	return BoundingBox(_llx, _lly, _length, _length);
 }
+
+string Square::describe(){
+	std::ostringstream oss;
+	oss << "S" << "(" << _llx << "," << _lly << "," << _length << ")";
+	return oss.str();
+}

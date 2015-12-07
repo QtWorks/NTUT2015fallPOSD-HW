@@ -15,6 +15,8 @@ public:
 	string print();
 	int area() const;
 	virtual BoundingBox getBoundingBox() const;
+	virtual string describe();
+
 };
 
 #endif // RECTANGLE_H

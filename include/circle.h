@@ -13,6 +13,7 @@ public:
 	string print();
 	virtual int area() const;
 	virtual BoundingBox getBoundingBox() const;
+	virtual string describe();
 };
 
 #endif // CIRCLE_H

@@ -1,5 +1,6 @@
 #include <string>
 #include "graphics.h"
+#include "GraphicsVisitor.h"
 
 using std::string;
 
@@ -12,4 +13,8 @@ void Graphics::add(Graphics *) {
 
 BoundingBox Graphics::getBoundingBox() const {
 	return BoundingBox(0, 0, 0, 0);
+}
+
+void Graphics::accept(GraphicsVisitor& graphicsVisitor){
+
 }

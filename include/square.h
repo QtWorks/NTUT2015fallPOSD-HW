@@ -4,6 +4,8 @@
 #include <string>
 #include "shape.h"
 
+using std::string;
+
 class Square : public Shape {
 private:
 	int _llx, _lly;
@@ -13,6 +15,7 @@ public:
 	string print();
 	virtual int area() const;
 	virtual BoundingBox getBoundingBox() const;
+	virtual string describe();
 };
 
 #endif // SQUARE_H

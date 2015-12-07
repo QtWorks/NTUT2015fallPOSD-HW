@@ -1,6 +1,9 @@
+#include <string>
 #include <sstream>
 #include "rectangle.h"
 #include "boundingbox.h"
+
+using std::string;
 
 Rectangle::Rectangle(int x, int y, int w, int h)
 	:Shape("rectangle"), _llc(Point(x, y)), _l(h), _w(w) {}
@@ -14,10 +17,16 @@ int Rectangle::area() const {
 
 string Rectangle::print() {
 	std::ostringstream oss;
-	oss << name() << "(" << _llc << "," << _w << "," << _l << ")";
+	oss << this->name() << "(" << _llc << "," << _w << "," << _l << ")";
 	return oss.str();
 }
 
 BoundingBox Rectangle::getBoundingBox() const {
 	return BoundingBox(_llc.getX(), _llc.getY(), _w, _l);
 }
+
+string Rectangle::describe(){
+	std::ostringstream oss;
+	oss << "R" << "(" << _llc.getX() << "," << _llc.getY() << "," << _w << "," << _l << ")";
+	return oss.str();
+};

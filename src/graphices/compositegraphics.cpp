@@ -1,4 +1,5 @@
 #include "compositegraphics.h"
+#include "GraphicsVisitor.h"
 
 void CompositeGraphics::add(Graphics *g) {
 	_graphics.push_back(g);
@@ -32,4 +33,15 @@ BoundingBox CompositeGraphics::getBoundingBox() const {
 		}
 	}
 	return BoundingBox(llx, lly, urx - llx, ury - lly);
+}
+
+int CompositeGraphics::size() const{
+	return _graphics.size();
+}
+
+void CompositeGraphics::accept(GraphicsVisitor& graphicsVisitor){
+	graphicsVisitor.visitCompositeGraphic(this);
+	for(auto item : _graphics) {
+		item->accept(graphicsVisitor);
+	}
 }

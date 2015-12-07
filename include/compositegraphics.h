@@ -12,6 +12,8 @@ private:
 public:
 	virtual void add(Graphics *);
 	virtual BoundingBox getBoundingBox() const;
+	int size() const;
+	void accept(GraphicsVisitor& graphicsVisitor);
 };
 
 #endif // COMPOSITEGRAPHICS_H

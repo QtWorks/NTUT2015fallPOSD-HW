@@ -19,3 +19,9 @@ BoundingBox Circle::getBoundingBox() const {
 int Circle::area() const {
 	return 3 * _radius*_radius;
 }
+
+string Circle::describe() {
+	std::ostringstream oss;
+	oss << "C" << "(" << _cx << "," << _cy << "," << _radius << ")";
+	return oss.str();
+}
