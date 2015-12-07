@@ -25,3 +25,15 @@ string Circle::describe() {
 	oss << "C" << "(" << _cx << "," << _cy << "," << _radius << ")";
 	return oss.str();
 }
+
+int Circle::getX() const {
+	return _cx;
+}
+
+int Circle::getY() const {
+	return _cy;
+}
+
+int Circle::getRadius() const {
+	return _radius;
+}

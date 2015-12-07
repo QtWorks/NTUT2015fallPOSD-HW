@@ -12,6 +12,8 @@ class GraphicsVisitor {
 public:
     virtual void visitSimpleGraphic(SimpleGraphics*) = 0;
     virtual void visitCompositeGraphic(CompositeGraphics*) = 0;
+    virtual void enter(){}
+    virtual void leave(){}
 };
 
 

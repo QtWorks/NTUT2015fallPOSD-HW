@@ -14,6 +14,9 @@ public:
 	virtual int area() const;
 	virtual BoundingBox getBoundingBox() const;
 	virtual string describe();
+    int getX() const;
+    int getY() const;
+    int getRadius() const;
 };
 
 #endif // CIRCLE_H

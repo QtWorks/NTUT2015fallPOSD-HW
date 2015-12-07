@@ -30,3 +30,19 @@ string Rectangle::describe(){
 	oss << "R" << "(" << _llc.getX() << "," << _llc.getY() << "," << _w << "," << _l << ")";
 	return oss.str();
 };
+
+int Rectangle::getX() {
+	return _llc.getX();
+}
+
+int Rectangle::getY() {
+	return _llc.getY();
+}
+
+int Rectangle::getWidth() {
+	return _w;
+}
+
+int Rectangle::getHeight() {
+	return _l;
+}

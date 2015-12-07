@@ -16,6 +16,9 @@ public:
 	virtual int area() const;
 	virtual BoundingBox getBoundingBox() const;
 	virtual string describe();
+	int getX();
+	int getY();
+	int getLength();
 };
 
 #endif // SQUARE_H

@@ -41,7 +41,9 @@ int CompositeGraphics::size() const{
 
 void CompositeGraphics::accept(GraphicsVisitor& graphicsVisitor){
 	graphicsVisitor.visitCompositeGraphic(this);
+    graphicsVisitor.enter();
 	for(auto item : _graphics) {
 		item->accept(graphicsVisitor);
 	}
+    graphicsVisitor.leave();
 }

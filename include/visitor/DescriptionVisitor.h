@@ -10,10 +10,12 @@
 #include <utility>
 #include <string>
 #include <sstream>
+#include <stack>
 
 using std::string;
 using std::ostringstream;
 using std::vector;
+using std::stack;
 
 class SimpleGraphics;
 
@@ -24,11 +26,16 @@ private:
     ostringstream _oss;
     std::vector<int> _level;
 
+    std::stack<string> level;
+
+    std::string prefix = "";
+
 public:
-    virtual void visitSimpleGraphic(SimpleGraphics *simpleGraphics);
-
-    virtual void visitCompositeGraphic(CompositeGraphics *compositeGraphics);
-
+    virtual void visitSimpleGraphic(SimpleGraphics *simpleGraphics) override;
+    virtual void visitCompositeGraphic(CompositeGraphics *compositeGraphics) override;
+    virtual void enter() override;
+    virtual void leave() override;
+    void printPrefix();
     string getDescription();
 };
 

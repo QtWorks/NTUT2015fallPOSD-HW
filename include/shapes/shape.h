@@ -21,7 +21,7 @@ public:
 	virtual string print();
 	virtual int area() const;
 	virtual BoundingBox getBoundingBox() const;
-	virtual string describe(){};
+	virtual string describe(){ return string("");};
 };
 
 string printShape(vector<Shape *> shapes);

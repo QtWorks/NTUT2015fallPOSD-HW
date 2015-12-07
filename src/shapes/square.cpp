@@ -24,3 +24,15 @@ string Square::describe(){
 	oss << "S" << "(" << _llx << "," << _lly << "," << _length << ")";
 	return oss.str();
 }
+
+int Square::getX() {
+	return _llx;
+}
+
+int Square::getY() {
+	return _lly;
+}
+
+int Square::getLength() {
+	return _length;
+}

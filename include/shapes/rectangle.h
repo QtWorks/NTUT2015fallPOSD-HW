@@ -16,7 +16,10 @@ public:
 	int area() const;
 	virtual BoundingBox getBoundingBox() const;
 	virtual string describe();
-
+	int getX();
+	int getY();
+	int getWidth();
+	int getHeight();
 };
 
 #endif // RECTANGLE_H
