@@ -16,6 +16,7 @@ public:
     virtual ~DrawingArea();
 
     QGraphicsScene * getScene();
+    QGraphicsView *getView();
 
 protected:
 private:

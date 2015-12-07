@@ -22,3 +22,7 @@ DrawingArea::~DrawingArea() {
 QGraphicsScene *DrawingArea::getScene() {
     return scene;
 }
+QGraphicsView *DrawingArea::getView()
+{
+    return view;
+}
