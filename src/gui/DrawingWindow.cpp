@@ -13,7 +13,6 @@
 #include "QtGraphicsViewVisitor.h"
 #include "DescriptionVisitor.h"
 #include "GraphicsFactory.h"
-#include "QtGraphicsFactory.h"
 
 #include "compositegraphics.h"
 #include "simplegraphics.h"
@@ -146,7 +145,7 @@ void DrawingWindow::doSaveFile() {
 }
 
 void DrawingWindow::loadFile(std::string filename) {
-    GraphicsFactory *graphicsFactory = new QtGraphicsFactory;
+    GraphicsFactory *graphicsFactory = new GraphicsFactory;
     try {
         Graphics *graphics = graphicsFactory->buildGraphicsFromFile(filename.c_str());
         this->activateGraphics = graphics;
