@@ -9,6 +9,7 @@ DrawingArea::DrawingArea() {
     layout->addWidget(view);
     layout->setMargin(0);
     view->setScene(scene);
+    view->scale(1,-1);
 
     this->setLayout(layout);
 }
