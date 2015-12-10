@@ -8,7 +8,7 @@
 #include <QFileDialog>
 #include <QtWidgets/qtoolbutton.h>
 
-#include "gui/shapegraphicitem/CircleQGraphicsItem.h"
+#include "gui/CoordinateAxisGraphicsItem.h"
 
 #include "QtGraphicsViewVisitor.h"
 #include "DescriptionVisitor.h"
@@ -75,6 +75,8 @@ void DrawingWindow::AttachAction() const {
 void DrawingWindow::createGraphicsView() {
     mainWidget = new DrawingArea();
     this->setCentralWidget(mainWidget);
+    mainWidget->getScene()->setSceneRect(-400, -300, 800, 600);
+    mainWidget->getScene()->addItem(new CoordinateAxisGraphicsItem);
 }
 
 void DrawingWindow::resizeScene() const {
@@ -160,6 +162,7 @@ void DrawingWindow::loadFile(std::string filename) {
 
 void DrawingWindow::updateScene() {
     mainWidget->getScene()->clear();
+    mainWidget->getScene()->addItem(new CoordinateAxisGraphicsItem);
     GraphicsVisitor *visitor = new QtGraphicsViewVisitor(mainWidget->getScene());
     cout << "test";
     activateGraphics->accept(*visitor);
