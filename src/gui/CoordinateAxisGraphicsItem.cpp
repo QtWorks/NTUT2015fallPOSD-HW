@@ -14,7 +14,7 @@ using namespace std;
 void CoordinateAxisGraphicsItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) {
 
     QFont f = painter->font();
-    f.setPointSize(f.pointSize()*1.5);
+    f.setPointSize(f.pointSize() * 1.5);
     painter->setFont(f);
 
     QRectF b = boundingRect();
@@ -28,10 +28,12 @@ void CoordinateAxisGraphicsItem::paint(QPainter *painter, const QStyleOptionGrap
     painter->drawLine(0, b2.y() + b2.height(), -10, b2.y() + b2.height() - 10);
 
     int dim = 50;
-    for (int i = b2.x() + dim; i < b2.x() + b2.width(); i += dim) {
+    int start_point = ((b2.x() + dim) / dim) * dim;
+    for (int i = start_point; i < b2.x() + b2.width(); i += dim) {
         painter->drawLine(i, -10, i, 10);
     }
-    for (int i = b2.y() + dim; i < b2.y() + b2.height(); i += dim) {
+    start_point = ((b2.y() + dim) / dim) * dim;
+    for (int i = start_point; i < b2.y() + b2.height(); i += dim) {
         painter->drawLine(-10, i, 10, i);
     }
 }

@@ -13,9 +13,9 @@ using namespace std;
 QtGraphicsViewVisitor::QtGraphicsViewVisitor(QGraphicsScene *scene)
         : GraphicsVisitor(), scene(scene) {
     greenPen = new QPen(Qt::green);
-    greenPen->setWidth(greenPen->width()*2);
+    greenPen->setWidth(greenPen->width() * 2);
     bluePen = new QPen(Qt::blue);
-    bluePen->setWidth(bluePen->width()*2);
+    bluePen->setWidth(bluePen->width() * 2);
 
 }
 
@@ -33,16 +33,26 @@ void QtGraphicsViewVisitor::visitSimpleGraphic(SimpleGraphics *graphics) {
         item = new CircleQGraphicsItem(graphics);
     }
     item->setPen(*bluePen);
-    scene->addItem(item);
+
+    if (v.empty()) {
+        scene->addItem(item);
+    } else {
+        item->_relativeX = static_cast<CompositeQGraphicsItem *>(v.top())->getGraphics()->getBoundingBox().getX();
+        item->_relativeY = static_cast<CompositeQGraphicsItem *>(v.top())->getGraphics()->getBoundingBox().getY();
+        static_cast<CompositeQGraphicsItem *>(v.top())->childs.push_back(item);
+    }
 }
 
 void QtGraphicsViewVisitor::visitRootGraphic(RootGraphics *graphics) {
-    
+
 }
 
 void QtGraphicsViewVisitor::visitCompositeGraphic(CompositeGraphics *graphics) {
-    BoundingBox a = graphics->getBoundingBox();
-    this->drawBoundingBox(a);
+    CompositeQGraphicsItem *cqg = new CompositeQGraphicsItem(graphics);
+    cqg->_relativeX = graphics->getBoundingBox().getX();
+    cqg->_relativeY = graphics->getBoundingBox().getY();
+    cqg->setPen(*greenPen);
+    v.push(cqg);
 }
 
 void QtGraphicsViewVisitor::drawCircle(Circle &shape) {
@@ -73,4 +83,22 @@ void QtGraphicsViewVisitor::drawBoundingBox(BoundingBox &boundingBox) {
     int w = boundingBox.getWidth();
     int h = boundingBox.getHeight();
     scene->addRect(x, y, w, h, *greenPen);
+}
+
+void QtGraphicsViewVisitor::enter() {
+    GraphicsVisitor::enter();
+}
+
+void QtGraphicsViewVisitor::leave() {
+    CompositeQGraphicsItem *q = static_cast<CompositeQGraphicsItem *>(v.top());
+    v.pop();
+    if (!v.empty()) {
+        q->_relativeX = static_cast<CompositeQGraphicsItem *>(v.top())->getGraphics()->getBoundingBox().getX();
+        q->_relativeY = static_cast<CompositeQGraphicsItem *>(v.top())->getGraphics()->getBoundingBox().getY();
+        static_cast<CompositeQGraphicsItem *>(v.top())->childs.push_back(q);
+    } else {
+        q->_relativeX = 0;
+        q->_relativeY = 0;
+        scene->addItem(q);
+    }
 }

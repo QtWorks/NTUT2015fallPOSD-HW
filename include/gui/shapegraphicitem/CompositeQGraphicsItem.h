@@ -21,8 +21,11 @@ public:
     virtual void setGraphics(Graphics *g) override;
     virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) override;
     virtual QRectF dragBoundingbox() const override;
-
     vector<ShapeQGraphicsItem *> childs;
+    virtual void notifyMove(int x, int y) override;
+protected:
+
+
 protected:
     virtual void draw(QPainter *painter) override;
     virtual QRectF boundingbox() const override;

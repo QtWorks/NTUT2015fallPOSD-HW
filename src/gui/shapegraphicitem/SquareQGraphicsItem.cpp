@@ -9,6 +9,11 @@ void SquareQGraphicsItem::dragDraw(QPainter *painter) {
 }
 
 QRectF SquareQGraphicsItem::boundingbox() const {
+    if(!this->scene()){
+        if (s) {
+            return QRectF(s->getX() - _relativeX, s->getY() - _relativeY, this->s->getLength(), this->s->getLength());
+        }
+    }
     if (s) {
         return QRectF(_x, _y, this->s->getLength(), this->s->getLength());
     }
@@ -31,4 +36,8 @@ void SquareQGraphicsItem::setGraphics(Graphics *g) {
 
 void SquareQGraphicsItem::notifyMove(int x, int y) {
     this->s->moveBy(x, y);
+    if(!this->scene()){
+        _relativeX += x;
+        _relativeY += y;
+    }
 }

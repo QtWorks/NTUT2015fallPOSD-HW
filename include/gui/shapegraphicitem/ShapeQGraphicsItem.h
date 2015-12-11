@@ -17,18 +17,23 @@ public:
     ShapeQGraphicsItem(Graphics *g);
 
     virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) override;
-
     virtual QRectF boundingRect() const override final;
 
-    void setPen(QPen &pen);
-
     virtual void setGraphics(Graphics *g);
+    virtual Graphics *getGraphics();
 
     bool isDragable() const;
 
     void setDragable(bool _dragable);
+    void setPen(QPen &pen);
+
+    int _relativeX = 0;
+    int _relativeY = 0;
+
+    virtual void notifyMove(int x, int y);
 
 protected:
+
     int _x;
     int _y;
 
@@ -38,11 +43,8 @@ protected:
      * Template method
      */
     virtual void draw(QPainter *painter) = 0;
-
     virtual QRectF boundingbox() const = 0;
-
     virtual void dragDraw(QPainter *painter) = 0;
-
     virtual QRectF dragBoundingbox() const = 0;
 
     /**
@@ -54,10 +56,9 @@ protected:
     int _dragX;
     int _dragY;
 
+
     virtual void mousePressEvent(QGraphicsSceneMouseEvent *event) override final;
-
     virtual void mouseMoveEvent(QGraphicsSceneMouseEvent *event) override final;
-
     virtual void mouseReleaseEvent(QGraphicsSceneMouseEvent *event) override final;
 
 private:

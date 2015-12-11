@@ -11,6 +11,8 @@
 
 class DrawingArea : public QWidget {
     Q_OBJECT
+
+
 public:
     DrawingArea();
     virtual ~DrawingArea();

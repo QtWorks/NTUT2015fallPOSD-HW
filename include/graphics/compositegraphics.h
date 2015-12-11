@@ -8,8 +8,9 @@ using std::vector;
 
 class CompositeGraphics : public Graphics {
 protected:
-	vector<Graphics *> _graphics;
+
 public:
+	vector<Graphics *> _graphics;
 	virtual void add(Graphics *);
 	virtual BoundingBox getBoundingBox() const;
 	int size() const;

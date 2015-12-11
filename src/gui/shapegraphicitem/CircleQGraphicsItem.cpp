@@ -16,6 +16,11 @@ void CircleQGraphicsItem::dragDraw(QPainter *painter) {
 }
 
 QRectF CircleQGraphicsItem::boundingbox() const {
+    if(!this->scene()){
+        if (c) {
+            return QRectF(c->getX() - c->getRadius() - _relativeX, c->getY() - c->getRadius() - _relativeY, c->getRadius() * 2, c->getRadius() * 2);
+        }
+    }
     if (c) {
         return QRectF(_x, _y, c->getRadius() * 2, c->getRadius() * 2);
     }
@@ -36,5 +41,9 @@ CircleQGraphicsItem::CircleQGraphicsItem() : ShapeQGraphicsItem() {
 void CircleQGraphicsItem::notifyMove(int x, int y) {
     if(c){
         this->c->moveBy(x,y);
+    }
+    if(!this->scene()){
+        _relativeX += x;
+        _relativeY += y;
     }
 }

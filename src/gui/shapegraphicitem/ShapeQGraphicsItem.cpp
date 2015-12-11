@@ -11,6 +11,7 @@
 ShapeQGraphicsItem::ShapeQGraphicsItem()
         : _x(0), _y(0), _pen(QPen(QColor(0, 0, 0, 255))) {
     setPos(_x, _y);
+    setFlag(GraphicsItemFlag::ItemIsSelectable, true);
 //    this->setFlag(QGraphicsItem::ItemIgnoresTransformations);
 //    this->setFlag(QGraphicsItem::ItemIsMovable);
 }
@@ -23,23 +24,28 @@ void ShapeQGraphicsItem::setPen(QPen &pen) {
 }
 
 /**
- * Set target Grapihc
- */
-//void ShapeQGraphicsItem::setGraphics(Graphics *g)
-//{
-//    this->g = g;
-//}
-
-/**
  * Paint event
  */
 void ShapeQGraphicsItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) {
+
+    if(!this->scene()){
+        painter->setPen(_pen);
+        this->draw(painter);
+        return;
+    }
+
+    if (isSelected() && !_isDraging) {
+        _pen.setStyle(Qt::PenStyle::DashLine);
+        painter->setPen(_pen);
+        this->draw(painter);
+        return;
+    }
+
     if (_isDraging) {
         _pen.setStyle(Qt::DotLine);
         painter->setPen(_pen);
         this->dragDraw(painter);
-    }
-    else {
+    } else {
         _pen.setStyle(Qt::SolidLine);
         painter->setPen(_pen);
         this->draw(painter);
@@ -82,49 +88,54 @@ void ShapeQGraphicsItem::mousePressEvent(QGraphicsSceneMouseEvent *event) {
 
         this->scene()->update();
         this->update();
-    } else {
-        QGraphicsItem::mousePressEvent(event);
     }
+    QGraphicsItem::mousePressEvent(event);
 }
 
 void ShapeQGraphicsItem::mouseMoveEvent(QGraphicsSceneMouseEvent *event) {
 //    cout << "mouseMoveEvent" << endl;
-    QPoint _draging = event->pos().toPoint();
+    if (_isDraging) {
+        QPoint _draging = event->pos().toPoint();
 
-    int diffX = _draging.x() - _dragStart.toPoint().x();
-    int diffY = _draging.y() - _dragStart.toPoint().y();
-    _dragX = (_x + diffX);
-    _dragY = (_y + diffY);
+        int diffX = _draging.x() - _dragStart.toPoint().x();
+        int diffY = _draging.y() - _dragStart.toPoint().y();
+        _dragX = (_x + diffX);
+        _dragY = (_y + diffY);
 
-//    this->setPos(_dragX, _dragY);
-
-    this->scene()->update();
-    this->update();
+        this->scene()->update();
+        this->update();
+    }
+    QGraphicsItem::mouseMoveEvent(event);
 }
 
 void ShapeQGraphicsItem::mouseReleaseEvent(QGraphicsSceneMouseEvent *event) {
 //    cout << "mouseReleaseEvent" << endl;
-    _isDraging = false;
-    QPointF _dragEnd = event->pos();
-    qreal diffX = _dragEnd.x() - _dragStart.x();
-    qreal diffY = _dragEnd.y() - _dragStart.y();
+    if (_isDraging) {
+        _isDraging = false;
+        QPointF _dragEnd = event->pos();
+        qreal diffX = _dragEnd.x() - _dragStart.x();
+        qreal diffY = _dragEnd.y() - _dragStart.y();
 
-    this->_x += diffX;
-    this->_y += diffY;
+        this->_x += static_cast<int>(diffX);
+        this->_y += static_cast<int>(diffY);
 
-    QPointF currentPoint = pos();
+        QPointF currentPoint = pos();
 
-    this->setPos(pos().x() + _x, pos().y() + _y);
-    this->notifyMove(_x, _y);
-    _x = 0;
-    _y = 0;
-    this->scene()->setSceneRect(this->scene()->itemsBoundingRect());
+        this->setPos(pos().x() + _x, pos().y() + _y);
+        this->notifyMove(_x, _y);
+        _x = 0;
+        _y = 0;
+        this->scene()->setSceneRect(this->scene()->itemsBoundingRect());
 
+        this->setSelected(false);
 
-    cout << "New Location Point: (" << pos().toPoint().x() << ", " << pos().toPoint().y() << ")" << endl;
+        cout << "New Location Point: (" << pos().toPoint().x() << ", " << pos().toPoint().y() << ")" << endl;
 
-    this->scene()->update();
-    this->update();
+        this->scene()->update();
+        this->update();
+    }
+
+    QGraphicsItem::mouseReleaseEvent(event);
 }
 
 void ShapeQGraphicsItem::setGraphics(Graphics *g) {
@@ -137,4 +148,8 @@ ShapeQGraphicsItem::ShapeQGraphicsItem(Graphics *g)
 }
 
 void ShapeQGraphicsItem::notifyMove(int x, int y) {
+}
+
+Graphics* ShapeQGraphicsItem::getGraphics() {
+    return this->_graphics;
 }

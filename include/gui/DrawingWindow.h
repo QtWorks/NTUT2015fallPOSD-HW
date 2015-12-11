@@ -54,11 +54,14 @@ private:
     QAction *createRectangleAction;
     QAction *createCircleAction;
 
-    QAction *deleteSimpleGraphicAction;
-
     // for group action
     QAction *groupAction;
     QAction *ungroupAction;
+
+    QAction *deleteSimpleGraphicAction;
+
+    QAction *redoAction;
+    QAction *undoAction;
 
     QToolBar *toolMenuBar;
 
@@ -80,6 +83,13 @@ private slots:
     void doCreateSquare();
     void doCreateCircle();
     void doCreateRectangle();
+
+    void doGroup();
+    void doUnGroup();
+
+    void doDeleteSimpleGraphics();
+    void doUndo();
+    void doRedo();
 
     void setConnect();
 

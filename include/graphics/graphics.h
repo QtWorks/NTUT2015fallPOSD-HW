@@ -10,8 +10,10 @@ public:
 	Graphics();
 	virtual BoundingBox getBoundingBox() const;
 	virtual void add(Graphics *);
+	virtual void remove(Graphics *g);
 
 	virtual void accept(GraphicsVisitor&);
+
 
 };
 

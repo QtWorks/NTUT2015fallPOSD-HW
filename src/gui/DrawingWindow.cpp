@@ -7,6 +7,7 @@
 #include <QMessageBox>
 #include <QFileDialog>
 #include <QtWidgets/qtoolbutton.h>
+#include <include/gui/shapegraphicitem/ShapeQGraphicsItem.h>
 
 #include "gui/CoordinateAxisGraphicsItem.h"
 
@@ -18,6 +19,7 @@
 #include "compositegraphics.h"
 #include "RootGraphics.h"
 #include "simplegraphics.h"
+#include "compositegraphics.h"
 
 using namespace std;
 
@@ -44,13 +46,19 @@ void DrawingWindow::createMenuBar() {
 }
 
 void DrawingWindow::initializeMenuAction() {
-    loadFileAction = new QAction(QIcon("./icon/Open.png"), "loadFile", this);
-    saveFileAction = new QAction(QIcon("./icon/Save.png"), "saveFile", this);
-    aboutDeveloperAction = new QAction("aboutDeveloper", this);
+    loadFileAction = new QAction(QIcon("./icon/open_2.png"), "loadFile", this);
+    saveFileAction = new QAction(QIcon("./icon/save_2.png"), "saveFile", this);
 
-    createSquareAction = new QAction("createSquare", this);
-    createRectangleAction = new QAction("createRectangle", this);
-    createCircleAction = new QAction("createCircle", this);
+    aboutDeveloperAction = new QAction("aboutDeveloper", this);
+    createSquareAction = new QAction(QIcon("./icon/square.png"), "createSquare", this);
+    createRectangleAction = new QAction(QIcon("./icon/rectangle.png"), "createRectangle", this);
+    createCircleAction = new QAction(QIcon("./icon/circle.png"), "createCircle", this);
+    groupAction = new QAction(QIcon("./icon/group.png"), "group", this);
+    ungroupAction = new QAction(QIcon("./icon/ungroup.png"), "ungroup", this);
+
+    deleteSimpleGraphicAction = new QAction(QIcon("./icon/delete.png"), "delete" , this);
+    redoAction = new QAction(QIcon("./icon/redo.png"), "redo" , this);
+    undoAction = new QAction(QIcon("./icon/undo.png"), "undo" , this);
 
     setConnect();
     AttachAction();
@@ -63,6 +71,12 @@ void DrawingWindow::setConnect() {
     connect(createSquareAction, SIGNAL(triggered(bool)), this, SLOT(doCreateSquare()));
     connect(createCircleAction, SIGNAL(triggered(bool)), this, SLOT(doCreateCircle()));
     connect(createRectangleAction, SIGNAL(triggered(bool)), this, SLOT(doCreateRectangle()));
+    connect(groupAction, SIGNAL(triggered(bool)), this, SLOT(doGroup()));
+    connect(ungroupAction, SIGNAL(triggered(bool)), this, SLOT(doUnGroup()));
+
+    connect(deleteSimpleGraphicAction, SIGNAL(triggered(bool)), this, SLOT(doDeleteSimpleGraphics()));
+    connect(redoAction, SIGNAL(triggered(bool)), this, SLOT(doRedo()));
+    connect(undoAction, SIGNAL(triggered(bool)), this, SLOT(doUndo()));
 }
 
 void DrawingWindow::AttachAction() const {
@@ -88,16 +102,32 @@ void DrawingWindow::resizeScene() const {
     int x = p.center().toPoint().x();
     int y = p.center().toPoint().y();
 
-    int widgetX = mainWidget->width();
-    int widgetY = mainWidget->height();
+    int widgetX = static_cast<int>(mainWidget->getScene()->itemsBoundingRect().width()) + 200;
+    int widgetY = static_cast<int>(mainWidget->getScene()->itemsBoundingRect().height()) + 200;
 
-//    mainWidget->getScene()->setSceneRect(x - widgetX / 2, y - widgetY / 2, widgetX, widgetY);
+    if (widgetX < 800) widgetX = 800;
+    if (widgetY < 600) widgetY = 600;
+
+    mainWidget->getScene()->setSceneRect(x - widgetX / 2, y - widgetY / 2, widgetX, widgetY);
 }
 
 void DrawingWindow::createToolMenuBar() {
     toolMenuBar = new QToolBar();
     toolMenuBar->addAction(loadFileAction);
     toolMenuBar->addAction(saveFileAction);
+
+    toolMenuBar->addAction(createCircleAction);
+    toolMenuBar->addAction(createRectangleAction);
+    toolMenuBar->addAction(createSquareAction);
+
+    toolMenuBar->addAction(groupAction);
+    toolMenuBar->addAction(ungroupAction);
+
+    toolMenuBar->addAction(undoAction);
+    toolMenuBar->addAction(redoAction);
+
+    toolMenuBar->addAction(deleteSimpleGraphicAction);
+
     this->addToolBar(toolMenuBar);
 }
 
@@ -166,6 +196,7 @@ void DrawingWindow::loadFile(std::string filename) {
 
 void DrawingWindow::updateScene() {
     mainWidget->getScene()->clear();
+    resizeScene();
     mainWidget->getScene()->addItem(new CoordinateAxisGraphicsItem);
     GraphicsVisitor *visitor = new QtGraphicsViewVisitor(mainWidget->getScene());
     cout << "test";
@@ -195,4 +226,46 @@ void DrawingWindow::doCreateRectangle() {
     Shape *square = new Rectangle(0, 0, 300, 150);
     this->activateGraphics->add(new SimpleGraphics(square));
     updateScene();
+}
+
+void DrawingWindow::doGroup() {
+
+    CompositeGraphics *cg = new CompositeGraphics;
+
+    for (auto e : mainWidget->getScene()->selectedItems()) {
+        cg->add(static_cast<ShapeQGraphicsItem *>(e)->getGraphics());
+        static_cast<RootGraphics *>(this->activateGraphics)->remove(static_cast<ShapeQGraphicsItem *>(e)->getGraphics());
+    }
+    this->activateGraphics->add(cg);
+    cout << "\n\nNumber of item : " << this->mainWidget->getScene()->items().size() << "\n\n";
+    this->updateScene();
+}
+
+void DrawingWindow::doUnGroup() {
+    for (auto e : mainWidget->getScene()->selectedItems()) {
+
+        CompositeGraphics * cg = static_cast<CompositeGraphics *>(static_cast<CompositeQGraphicsItem *>(e)->getGraphics());
+        if(cg){
+            for(auto gs : cg->_graphics){
+                this->activateGraphics->add(gs);
+            }
+            static_cast<RootGraphics *>(this->activateGraphics)->remove(static_cast<ShapeQGraphicsItem *>(e)->getGraphics());
+        }
+    }
+    this->updateScene();
+}
+
+void DrawingWindow::doDeleteSimpleGraphics() {
+    for (auto e : mainWidget->getScene()->selectedItems()) {
+        static_cast<RootGraphics *>(this->activateGraphics)->remove(static_cast<ShapeQGraphicsItem *>(e)->getGraphics());
+    }
+    this->updateScene();
+}
+
+void DrawingWindow::doUndo() {
+
+}
+
+void DrawingWindow::doRedo() {
+
 }

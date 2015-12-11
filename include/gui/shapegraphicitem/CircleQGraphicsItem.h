@@ -21,9 +21,9 @@ public:
     virtual void dragDraw(QPainter *painter) override;
     virtual QRectF boundingbox() const override;
     virtual QRectF dragBoundingbox() const override;
-
-protected:
     virtual void notifyMove(int x, int y) override;
+protected:
+
 private:
     SimpleGraphics *sg = 0;
     Circle *c = 0;

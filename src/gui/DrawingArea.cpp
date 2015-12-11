@@ -9,7 +9,10 @@ DrawingArea::DrawingArea() {
     layout->addWidget(view);
     layout->setMargin(0);
     view->setScene(scene);
-    view->scale(1,-1);
+
+    view->setDragMode(QGraphicsView::DragMode::RubberBandDrag);
+    view->setRubberBandSelectionMode(Qt::ItemSelectionMode::ContainsItemBoundingRect);
+    view->scale(1, -1);
 
     this->setLayout(layout);
 }
@@ -23,7 +26,7 @@ DrawingArea::~DrawingArea() {
 QGraphicsScene *DrawingArea::getScene() {
     return scene;
 }
-QGraphicsView *DrawingArea::getView()
-{
+
+QGraphicsView *DrawingArea::getView() {
     return view;
 }

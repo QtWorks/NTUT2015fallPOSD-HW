@@ -9,6 +9,11 @@ void RectangleQGraphicsItem::dragDraw(QPainter *painter) {
 }
 
 QRectF RectangleQGraphicsItem::boundingbox() const {
+    if(!this->scene()){
+        if (r) {
+            return QRectF(r->getX() - _relativeX, r->getY() - _relativeY, this->r->getWidth(), this->r->getHeight());
+        }
+    }
     if (r) {
         return QRectF(_x, _y, this->r->getWidth(), this->r->getHeight());
     }
@@ -31,4 +36,8 @@ void RectangleQGraphicsItem::setGraphics(Graphics *g) {
 
 void RectangleQGraphicsItem::notifyMove(int x, int y) {
     this->r->moveBy(x, y);
+    if(!this->scene()){
+        _relativeX += x;
+        _relativeY += y;
+    }
 }

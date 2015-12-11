@@ -9,6 +9,10 @@
 #include "rectangle.h"
 #include "square.h"
 #include "boundingbox.h"
+#include <stack>
+#include <include/gui/shapegraphicitem/CompositeQGraphicsItem.h>
+
+using std::stack;
 
 class QtGraphicsViewVisitor : public GraphicsVisitor {
 
@@ -18,13 +22,16 @@ public:
 
     virtual void visitSimpleGraphic(SimpleGraphics *graphics) override;
     virtual void visitCompositeGraphic(CompositeGraphics *graphics) override;
-
-
     virtual void visitRootGraphic(RootGraphics *graphics);
+
+    virtual void enter() override;
+    virtual void leave() override;
 private:
 
     QPen *greenPen;
     QPen *bluePen;
+
+    stack<CompositeQGraphicsItem *> v;
 
     QGraphicsScene *scene;
     void drawCircle(Circle &shape);
