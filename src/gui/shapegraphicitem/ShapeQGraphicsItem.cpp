@@ -9,8 +9,7 @@
  * constructor
  */
 ShapeQGraphicsItem::ShapeQGraphicsItem()
-    : _x(0), _y(0), _pen(QPen(QColor(0, 0, 0, 255)))
-{
+        : _x(0), _y(0), _pen(QPen(QColor(0, 0, 0, 255))) {
     setPos(_x, _y);
 //    this->setFlag(QGraphicsItem::ItemIgnoresTransformations);
 //    this->setFlag(QGraphicsItem::ItemIsMovable);
@@ -19,8 +18,7 @@ ShapeQGraphicsItem::ShapeQGraphicsItem()
 /**
  * Set the draw pen
  */
-void ShapeQGraphicsItem::setPen(QPen &pen)
-{
+void ShapeQGraphicsItem::setPen(QPen &pen) {
     this->_pen = pen;
 }
 
@@ -35,8 +33,7 @@ void ShapeQGraphicsItem::setPen(QPen &pen)
 /**
  * Paint event
  */
-void ShapeQGraphicsItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
-{
+void ShapeQGraphicsItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) {
     if (_isDraging) {
         _pen.setStyle(Qt::DotLine);
         painter->setPen(_pen);
@@ -52,14 +49,21 @@ void ShapeQGraphicsItem::paint(QPainter *painter, const QStyleOptionGraphicsItem
 /**
  * thie item's bounding box
  */
-QRectF ShapeQGraphicsItem::boundingRect() const
-{
-    if(_isDraging){
+QRectF ShapeQGraphicsItem::boundingRect() const {
+    if (_isDraging) {
         return this->dragBoundingbox();
-    }else{
+    } else {
         return this->boundingbox();
     }
 
+}
+
+bool ShapeQGraphicsItem::isDragable() const {
+    return _dragable;
+}
+
+void ShapeQGraphicsItem::setDragable(bool _dragable) {
+    this->_dragable = _dragable;
 }
 
 using namespace std;
@@ -67,22 +71,24 @@ using namespace std;
 /**
  * below event are provide a mouse drag event
  */
-void ShapeQGraphicsItem::mousePressEvent(QGraphicsSceneMouseEvent *event)
-{
+void ShapeQGraphicsItem::mousePressEvent(QGraphicsSceneMouseEvent *event) {
 //    cout << "mousePressEvent" << endl;
-    _isDraging = true;
-    _dragX = _x;
-    _dragY = _y;
-    _dragStart = event->pos().toPoint();
 
+    if (event->button() == Qt::LeftButton && _dragable) { // only use left button of mouse , can drag grapihcs
+        _isDraging = true;
+        _dragX = _x;
+        _dragY = _y;
+        _dragStart = event->pos().toPoint();
 
-    this->scene()->update();
-    this->update();
+        this->scene()->update();
+        this->update();
+    } else {
+        QGraphicsItem::mousePressEvent(event);
+    }
 }
 
-void ShapeQGraphicsItem::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
-{
-    cout << "mouseMoveEvent" << endl;
+void ShapeQGraphicsItem::mouseMoveEvent(QGraphicsSceneMouseEvent *event) {
+//    cout << "mouseMoveEvent" << endl;
     QPoint _draging = event->pos().toPoint();
 
     int diffX = _draging.x() - _dragStart.toPoint().x();
@@ -96,8 +102,7 @@ void ShapeQGraphicsItem::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
     this->update();
 }
 
-void ShapeQGraphicsItem::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
-{
+void ShapeQGraphicsItem::mouseReleaseEvent(QGraphicsSceneMouseEvent *event) {
 //    cout << "mouseReleaseEvent" << endl;
     _isDraging = false;
     QPointF _dragEnd = event->pos();
@@ -109,13 +114,24 @@ void ShapeQGraphicsItem::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
 
     QPointF currentPoint = pos();
 
-    this->setPos(pos().x()+ _x, pos().y()+_y);
+    this->setPos(pos().x() + _x, pos().y() + _y);
     _x = 0;
     _y = 0;
     this->scene()->setSceneRect(this->scene()->itemsBoundingRect());
 
 //    this->setPos(_x, _y);
 
+    cout << "New Location Point: (" << pos().toPoint().x() << ", " << pos().toPoint().y() << ")" << endl;
+
     this->scene()->update();
     this->update();
+}
+
+void ShapeQGraphicsItem::setGraphics(Graphics *g) {
+    this->_graphics = g;
+}
+
+ShapeQGraphicsItem::ShapeQGraphicsItem(Graphics *g)
+        : ShapeQGraphicsItem::ShapeQGraphicsItem() {
+    this->setGraphics(g);
 }

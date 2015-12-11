@@ -12,17 +12,18 @@ using std::string;
 
 class SimpleGraphics : public Graphics {
 private:
-	Shape *_s;
+    Shape *_s;
 public:
-	SimpleGraphics(Shape *s);
-	virtual BoundingBox getBoundingBox() const;
+    SimpleGraphics(Shape *s);
+    virtual BoundingBox getBoundingBox() const;
 
-	virtual Shape* getShape() const{
-		return this->_s;
-	}
+    virtual Shape *getShape() const {
+        return this->_s;
+    }
 
-	virtual void accept(GraphicsVisitor& graphicsVisitor){
-		graphicsVisitor.visitSimpleGraphic(this);
-	}
+    virtual void accept(GraphicsVisitor &graphicsVisitor) {
+        graphicsVisitor.visitSimpleGraphic(this);
+    }
 };
+
 #endif // SIMPLEGRAPHICS_H

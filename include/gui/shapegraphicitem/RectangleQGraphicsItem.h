@@ -7,9 +7,17 @@
 
 
 #include "gui/shapegraphicitem/ShapeQGraphicsItem.h"
+#include "rectangle.h"
+#include "simplegraphics.h"
 
-class RectangleQGraphicsItem: public ShapeQGraphicsItem
-{
+class RectangleQGraphicsItem : public ShapeQGraphicsItem {
+
+public:
+    RectangleQGraphicsItem(Graphics *g) : ShapeQGraphicsItem() {
+        this->setGraphics(g);
+    }
+
+    RectangleQGraphicsItem() : ShapeQGraphicsItem() { }
 
 public:
 
@@ -17,8 +25,10 @@ public:
     virtual void dragDraw(QPainter *painter) override;
     virtual QRectF boundingbox() const override;
     virtual QRectF dragBoundingbox() const override;
-
+    virtual void setGraphics(Graphics *g) override;
 private:
+    SimpleGraphics *sg = 0;
+    Rectangle *r = 0;
 
 };
 

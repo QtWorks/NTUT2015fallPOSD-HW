@@ -11,28 +11,38 @@
 
 using namespace std;
 
-class ShapeQGraphicsItem: public QGraphicsItem
-{
+class ShapeQGraphicsItem : public QGraphicsItem {
 public:
     ShapeQGraphicsItem();
+    ShapeQGraphicsItem(Graphics *g);
 
-    virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) override final;
+    virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) override;
+
     virtual QRectF boundingRect() const override final;
 
     void setPen(QPen &pen);
 
-protected:
-    QPen _pen;
+    virtual void setGraphics(Graphics *g);
 
+    bool isDragable() const;
+
+    void setDragable(bool _dragable);
+
+protected:
     int _x;
     int _y;
+
+    Graphics *_graphics = 0;
 
     /**
      * Template method
      */
     virtual void draw(QPainter *painter) = 0;
+
     virtual QRectF boundingbox() const = 0;
+
     virtual void dragDraw(QPainter *painter) = 0;
+
     virtual QRectF dragBoundingbox() const = 0;
 
     /**
@@ -40,11 +50,18 @@ protected:
      */
     QPointF _dragStart;
     bool _isDraging = false;
+    bool _dragable = true;
     int _dragX;
     int _dragY;
+
     virtual void mousePressEvent(QGraphicsSceneMouseEvent *event) override final;
+
     virtual void mouseMoveEvent(QGraphicsSceneMouseEvent *event) override final;
+
     virtual void mouseReleaseEvent(QGraphicsSceneMouseEvent *event) override final;
+
+private:
+    QPen _pen;
 };
 
 #endif

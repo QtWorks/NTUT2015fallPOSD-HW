@@ -3,12 +3,19 @@
 #include "simplegraphics.h"
 #include "compositegraphics.h"
 
+#include "gui/shapegraphicitem/CircleQGraphicsItem.h"
+#include "gui/shapegraphicitem/RectangleQGraphicsItem.h"
+#include "gui/shapegraphicitem/SquareQGraphicsItem.h"
+#include "gui/shapegraphicitem/CompositeQGraphicsItem.h"
+
 using namespace std;
 
 QtGraphicsViewVisitor::QtGraphicsViewVisitor(QGraphicsScene *scene)
         : GraphicsVisitor(), scene(scene) {
     greenPen = new QPen(Qt::green);
+    greenPen->setWidth(greenPen->width()*2);
     bluePen = new QPen(Qt::blue);
+    bluePen->setWidth(bluePen->width()*2);
 
 }
 
@@ -16,13 +23,17 @@ void QtGraphicsViewVisitor::visitSimpleGraphic(SimpleGraphics *graphics) {
     Shape *shape = graphics->getShape();
     string describe = shape->describe();
 
+    ShapeQGraphicsItem *item = 0;
+
     if (describe[0] == 'R') {
-        drawRectangle(*static_cast<Rectangle *>(shape));
+        item = new RectangleQGraphicsItem(graphics);
     } else if (describe[0] == 'S') {
-        drawSquare(*static_cast<Square *>(shape));
+        item = new SquareQGraphicsItem(graphics);
     } else if (describe[0] == 'C') {
-        drawCircle(*static_cast<Circle *>(shape));
+        item = new CircleQGraphicsItem(graphics);
     }
+    item->setPen(*bluePen);
+    scene->addItem(item);
 }
 
 void QtGraphicsViewVisitor::visitCompositeGraphic(CompositeGraphics *graphics) {

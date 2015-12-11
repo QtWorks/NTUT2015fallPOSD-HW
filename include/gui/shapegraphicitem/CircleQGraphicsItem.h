@@ -6,23 +6,25 @@
 #define INC_104598003_HW5_CIRCLEQGRAPHICITEM_H
 
 #include "gui/shapegraphicitem/ShapeQGraphicsItem.h"
+#include "circle.h"
+#include "simplegraphics.h"
 
-class CircleQGraphicsItem: public ShapeQGraphicsItem
-{
+class CircleQGraphicsItem : public ShapeQGraphicsItem {
 public:
-
-    CircleQGraphicsItem()
-        : ShapeQGraphicsItem()
-    {
-        this->setPos(-800,-100);
+    CircleQGraphicsItem();
+    CircleQGraphicsItem(Graphics *g) : ShapeQGraphicsItem() {
+        this->setGraphics(g);
     }
+
+    virtual void setGraphics(Graphics *g) override;
     virtual void draw(QPainter *painter) override;
     virtual void dragDraw(QPainter *painter) override;
     virtual QRectF boundingbox() const override;
     virtual QRectF dragBoundingbox() const override;
 
 private:
-
+    SimpleGraphics *sg = 0;
+    Circle *c = 0;
 };
 
 #endif //INC_104598003_HW5_CIRCLEQGRAPHICITEM_H
