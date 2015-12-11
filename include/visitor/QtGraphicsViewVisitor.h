@@ -12,6 +12,8 @@
 #include <stack>
 #include <include/gui/shapegraphicitem/CompositeQGraphicsItem.h>
 
+class DrawingWindow;
+
 using std::stack;
 
 class QtGraphicsViewVisitor : public GraphicsVisitor {
@@ -19,6 +21,8 @@ class QtGraphicsViewVisitor : public GraphicsVisitor {
 public:
 
     QtGraphicsViewVisitor(QGraphicsScene *scene);
+
+    DrawingWindow *w;
 
     virtual void visitSimpleGraphic(SimpleGraphics *graphics) override;
     virtual void visitCompositeGraphic(CompositeGraphics *graphics) override;

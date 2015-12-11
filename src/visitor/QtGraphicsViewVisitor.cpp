@@ -33,6 +33,7 @@ void QtGraphicsViewVisitor::visitSimpleGraphic(SimpleGraphics *graphics) {
         item = new CircleQGraphicsItem(graphics);
     }
     item->setPen(*bluePen);
+    item->w = this->w;
 
     if (v.empty()) {
         scene->addItem(item);
@@ -52,6 +53,7 @@ void QtGraphicsViewVisitor::visitCompositeGraphic(CompositeGraphics *graphics) {
     cqg->_relativeX = graphics->getBoundingBox().getX();
     cqg->_relativeY = graphics->getBoundingBox().getY();
     cqg->setPen(*greenPen);
+    cqg->w = this->w;
     v.push(cqg);
 }
 

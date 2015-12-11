@@ -12,6 +12,17 @@
 #include "graphics.h"
 #include "DrawingArea.h"
 
+#include <stack>
+#include "Command.h"
+#include "CreateCircleCmd.h"
+#include "CreateRectangleCmd.h"
+#include "CreateSquareCmd.h"
+#include "DeleteCmd.h"
+#include "GroupCmd.h"
+#include "UnGroupCmd.h"
+
+using std::stack;
+
 
 class DrawingWindow : public QMainWindow {
 Q_OBJECT
@@ -19,6 +30,22 @@ public:
     DrawingWindow();
 
     virtual ~DrawingWindow();
+
+    stack<Command *> command_undoCmds;
+    stack<Command *> command_redoCmds;
+
+    Graphics *activateGraphics = 0;
+
+    void doCreateSquare();
+    void doCreateCircle();
+    void doCreateRectangle();
+    void doGroup();
+    void doUnGroup();
+    void doDeleteSimpleGraphics();
+    void updateScene();
+
+    void doCmdMovePre();
+    void doCmdMove();
 
 private:
     void createMenuBar();
@@ -35,7 +62,7 @@ private:
 
     QString getCurrentPath();
 
-    Graphics *activateGraphics = 0;
+
 
     /**
      * Qt Objects
@@ -71,7 +98,7 @@ private:
     // Main View
     DrawingArea *mainWidget;
 
-    void updateScene();
+
 
 private slots:
 
@@ -80,14 +107,13 @@ private slots:
     void doOpenFile();
     void doSaveFile();
 
-    void doCreateSquare();
-    void doCreateCircle();
-    void doCreateRectangle();
+    void doCmdCreateSquare();
+    void doCmdCreateCircle();
+    void doCmdCreateRectangle();
+    void doCmdGroup();
+    void doCmdUnGroup();
+    void doCmdDeleteSimpleGraphics();
 
-    void doGroup();
-    void doUnGroup();
-
-    void doDeleteSimpleGraphics();
     void doUndo();
     void doRedo();
 
@@ -95,6 +121,7 @@ private slots:
 
     void AttachAction() const;
     void resizeScene() const;
+    void clearRedoStack();
 };
 
 

@@ -8,6 +8,7 @@
 #include <iostream>
 
 #include "graphics/graphics.h"
+#include "DrawingWindow.h"
 
 using namespace std;
 
@@ -26,6 +27,10 @@ public:
 
     void setDragable(bool _dragable);
     void setPen(QPen &pen);
+
+    DrawingWindow *w;
+
+
 
     int _relativeX = 0;
     int _relativeY = 0;

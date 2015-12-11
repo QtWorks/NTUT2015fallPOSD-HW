@@ -1,0 +1,14 @@
+//
+// Created by Raccoon on 2015/12/11.
+//
+
+#ifndef POSD_104598003_HW5_COMMANDMANAGER_H
+#define POSD_104598003_HW5_COMMANDMANAGER_H
+
+
+class CommandManager {
+
+};
+
+
+#endif //POSD_104598003_HW5_COMMANDMANAGER_H

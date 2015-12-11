@@ -17,6 +17,8 @@ include_directories(
         include/gui/shapegraphicitem
         include/shapes
         include/visitor
+        include/commands
+        include/commands/cmd
         src/test
         lib
 )
@@ -98,7 +100,7 @@ set(SOURCE_FILES
         include/graphics/RootGraphics.h
 
 
-        src/graphices/MultiRootGraphicFactory.cpp include/graphics/MultiRootGraphicFactory.h src/test/utMultiRootGraphics.h)
+        src/graphices/MultiRootGraphicFactory.cpp include/graphics/MultiRootGraphicFactory.h src/test/utMultiRootGraphics.h src/commands/CommandManager.cpp include/commands/CommandManager.h src/commands/cmd/Command.cpp include/commands/cmd/Command.h src/commands/cmd/CreateCircleCmd.cpp include/commands/cmd/CreateCircleCmd.h src/commands/cmd/CreateSquareCmd.cpp include/commands/cmd/CreateSquareCmd.h src/commands/cmd/CreateRectangleCmd.cpp include/commands/cmd/CreateRectangleCmd.h src/commands/cmd/GroupCmd.cpp include/commands/cmd/GroupCmd.h src/commands/cmd/UnGroupCmd.cpp include/commands/cmd/UnGroupCmd.h src/commands/cmd/DeleteCmd.cpp include/commands/cmd/DeleteCmd.h include/commands/cmd/MoveCmd.cpp include/commands/cmd/MoveCmd.h)
 
 add_library(cppunitlite STATIC IMPORTED)
 set_property(TARGET cppunitlite PROPERTY IMPORTED_LOCATION ${PROJECT_SOURCE_DIR}/lib/cppunitlite/libcppunitlite.a)

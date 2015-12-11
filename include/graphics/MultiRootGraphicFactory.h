@@ -7,6 +7,7 @@ class MultiRootGraphicFactory : public GraphicsFactory {
 
 public:
     virtual Graphics *buildGraphicsFromFile(const char *fileName) override;
+    virtual Graphics *buildGraphicsFromString(const char *fileName);
 };
 
 

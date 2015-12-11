@@ -7,7 +7,7 @@
 #include <QMessageBox>
 #include <QFileDialog>
 #include <QtWidgets/qtoolbutton.h>
-#include <include/gui/shapegraphicitem/ShapeQGraphicsItem.h>
+#include "gui/shapegraphicitem/ShapeQGraphicsItem.h"
 
 #include "gui/CoordinateAxisGraphicsItem.h"
 
@@ -20,6 +20,15 @@
 #include "RootGraphics.h"
 #include "simplegraphics.h"
 #include "compositegraphics.h"
+
+#include "Command.h"
+#include "CreateCircleCmd.h"
+#include "CreateRectangleCmd.h"
+#include "CreateSquareCmd.h"
+#include "GroupCmd.h"
+#include "UnGroupCmd.h"
+#include "DeleteCmd.h"
+#include "MoveCmd.h"
 
 using namespace std;
 
@@ -56,9 +65,13 @@ void DrawingWindow::initializeMenuAction() {
     groupAction = new QAction(QIcon("./icon/group.png"), "group", this);
     ungroupAction = new QAction(QIcon("./icon/ungroup.png"), "ungroup", this);
 
-    deleteSimpleGraphicAction = new QAction(QIcon("./icon/delete.png"), "delete" , this);
-    redoAction = new QAction(QIcon("./icon/redo.png"), "redo" , this);
-    undoAction = new QAction(QIcon("./icon/undo.png"), "undo" , this);
+    deleteSimpleGraphicAction = new QAction(QIcon("./icon/delete.png"), "delete", this);
+
+    redoAction = new QAction(QIcon("./icon/redo.png"), "redo", this);
+    undoAction = new QAction(QIcon("./icon/undo.png"), "undo", this);
+
+    redoAction->setEnabled(false);
+    undoAction->setEnabled(false);
 
     setConnect();
     AttachAction();
@@ -68,13 +81,16 @@ void DrawingWindow::setConnect() {
     connect(aboutDeveloperAction, SIGNAL(triggered(bool)), this, SLOT(doAboutDeveloper()));
     connect(loadFileAction, SIGNAL(triggered(bool)), this, SLOT(doOpenFile()));
     connect(saveFileAction, SIGNAL(triggered(bool)), this, SLOT(doSaveFile()));
-    connect(createSquareAction, SIGNAL(triggered(bool)), this, SLOT(doCreateSquare()));
-    connect(createCircleAction, SIGNAL(triggered(bool)), this, SLOT(doCreateCircle()));
-    connect(createRectangleAction, SIGNAL(triggered(bool)), this, SLOT(doCreateRectangle()));
-    connect(groupAction, SIGNAL(triggered(bool)), this, SLOT(doGroup()));
-    connect(ungroupAction, SIGNAL(triggered(bool)), this, SLOT(doUnGroup()));
 
-    connect(deleteSimpleGraphicAction, SIGNAL(triggered(bool)), this, SLOT(doDeleteSimpleGraphics()));
+    connect(createSquareAction, SIGNAL(triggered(bool)), this, SLOT(doCmdCreateSquare()));
+    connect(createCircleAction, SIGNAL(triggered(bool)), this, SLOT(doCmdCreateCircle()));
+    connect(createRectangleAction, SIGNAL(triggered(bool)), this, SLOT(doCmdCreateRectangle()));
+
+    connect(groupAction, SIGNAL(triggered(bool)), this, SLOT(doCmdGroup()));
+    connect(ungroupAction, SIGNAL(triggered(bool)), this, SLOT(doCmdUnGroup()));
+
+    connect(deleteSimpleGraphicAction, SIGNAL(triggered(bool)), this, SLOT(doCmdDeleteSimpleGraphics()));
+
     connect(redoAction, SIGNAL(triggered(bool)), this, SLOT(doRedo()));
     connect(undoAction, SIGNAL(triggered(bool)), this, SLOT(doUndo()));
 }
@@ -198,7 +214,8 @@ void DrawingWindow::updateScene() {
     mainWidget->getScene()->clear();
     resizeScene();
     mainWidget->getScene()->addItem(new CoordinateAxisGraphicsItem);
-    GraphicsVisitor *visitor = new QtGraphicsViewVisitor(mainWidget->getScene());
+    QtGraphicsViewVisitor *visitor = new QtGraphicsViewVisitor(mainWidget->getScene());
+    visitor->w = this;
     cout << "test";
     activateGraphics->accept(*visitor);
     mainWidget->getScene()->update();
@@ -234,7 +251,8 @@ void DrawingWindow::doGroup() {
 
     for (auto e : mainWidget->getScene()->selectedItems()) {
         cg->add(static_cast<ShapeQGraphicsItem *>(e)->getGraphics());
-        static_cast<RootGraphics *>(this->activateGraphics)->remove(static_cast<ShapeQGraphicsItem *>(e)->getGraphics());
+        static_cast<RootGraphics *>(this->activateGraphics)->remove(
+                static_cast<ShapeQGraphicsItem *>(e)->getGraphics());
     }
     this->activateGraphics->add(cg);
     cout << "\n\nNumber of item : " << this->mainWidget->getScene()->items().size() << "\n\n";
@@ -244,12 +262,13 @@ void DrawingWindow::doGroup() {
 void DrawingWindow::doUnGroup() {
     for (auto e : mainWidget->getScene()->selectedItems()) {
 
-        CompositeGraphics * cg = static_cast<CompositeGraphics *>(static_cast<CompositeQGraphicsItem *>(e)->getGraphics());
-        if(cg){
-            for(auto gs : cg->_graphics){
+        CompositeGraphics *cg = static_cast<CompositeGraphics *>(static_cast<CompositeQGraphicsItem *>(e)->getGraphics());
+        if (cg) {
+            for (auto gs : cg->_graphics) {
                 this->activateGraphics->add(gs);
             }
-            static_cast<RootGraphics *>(this->activateGraphics)->remove(static_cast<ShapeQGraphicsItem *>(e)->getGraphics());
+            static_cast<RootGraphics *>(this->activateGraphics)->remove(
+                    static_cast<ShapeQGraphicsItem *>(e)->getGraphics());
         }
     }
     this->updateScene();
@@ -257,15 +276,119 @@ void DrawingWindow::doUnGroup() {
 
 void DrawingWindow::doDeleteSimpleGraphics() {
     for (auto e : mainWidget->getScene()->selectedItems()) {
-        static_cast<RootGraphics *>(this->activateGraphics)->remove(static_cast<ShapeQGraphicsItem *>(e)->getGraphics());
+        static_cast<RootGraphics *>(this->activateGraphics)->remove(
+                static_cast<ShapeQGraphicsItem *>(e)->getGraphics());
     }
     this->updateScene();
 }
 
-void DrawingWindow::doUndo() {
 
+void DrawingWindow::doUndo() {
+    if (!this->command_undoCmds.empty()) {
+        Command *c = this->command_undoCmds.top();
+        this->command_undoCmds.pop();
+        c->unexecute();
+        this->command_redoCmds.push(c);
+        if (this->command_undoCmds.empty()) {
+            this->undoAction->setEnabled(false);
+        }
+
+        this->redoAction->setEnabled(true);
+    }
 }
 
 void DrawingWindow::doRedo() {
+    cout << "Command - Redo -size " << command_redoCmds.size() << endl;
+    if (this->command_redoCmds.size() > 0) {
+        Command *c = this->command_redoCmds.top();
+        this->command_redoCmds.pop();
+        this->undoAction->setEnabled(true);
+        c->execute();
+        this->command_undoCmds.push(c);
+        if (this->command_redoCmds.empty()) {
+            this->redoAction->setEnabled(false);
+        }
+    }
 
+}
+
+
+/**
+ * Command action of  Command Pattern
+ */
+
+void DrawingWindow::doCmdCreateSquare() {
+    Command *c = new CreateSquareCmd(this);
+    this->command_undoCmds.push(c);
+    this->undoAction->setEnabled(true);
+    this->redoAction->setEnabled(false);
+    c->execute();
+    this->clearRedoStack();
+}
+
+void DrawingWindow::doCmdCreateCircle() {
+    Command *c = new CreateCircleCmd(this);
+    this->command_undoCmds.push(c);
+    this->undoAction->setEnabled(true);
+    this->redoAction->setEnabled(false);
+    c->execute();
+    this->clearRedoStack();
+}
+
+void DrawingWindow::doCmdCreateRectangle() {
+    Command *c = new CreateRectangleCmd(this);
+    this->command_undoCmds.push(c);
+    this->undoAction->setEnabled(true);
+    this->redoAction->setEnabled(false);
+    c->execute();
+    this->clearRedoStack();
+}
+
+void DrawingWindow::doCmdGroup() {
+    Command *c = new GroupCmd(this);
+    this->command_undoCmds.push(c);
+    this->undoAction->setEnabled(true);
+    this->redoAction->setEnabled(false);
+    c->execute();
+    this->clearRedoStack();
+}
+
+void DrawingWindow::doCmdUnGroup() {
+    Command *c = new UnGroupCmd(this);
+    this->command_undoCmds.push(c);
+    this->undoAction->setEnabled(true);
+    this->redoAction->setEnabled(false);
+    c->execute();
+    this->clearRedoStack();
+}
+
+void DrawingWindow::doCmdDeleteSimpleGraphics() {
+    Command *c = new DeleteCmd(this);
+    this->command_undoCmds.push(c);
+    this->undoAction->setEnabled(true);
+    this->redoAction->setEnabled(false);
+    c->execute();
+    this->clearRedoStack();
+}
+
+void DrawingWindow::clearRedoStack() {
+    while (!this->command_redoCmds.empty()) {
+        this->command_redoCmds.pop();
+    }
+}
+
+void DrawingWindow::doCmdMove() {
+    DescriptionVisitor v;
+    this->activateGraphics->accept(v);
+    static_cast<MoveCmd *>(this->command_undoCmds.top())->checkpoint2 = v.getDescription();
+    this->undoAction->setEnabled(true);
+    this->redoAction->setEnabled(false);
+    this->clearRedoStack();
+}
+
+void DrawingWindow::doCmdMovePre() {
+    this->command_undoCmds.push(new MoveCmd(this));
+    DescriptionVisitor v;
+    this->activateGraphics->accept(v);
+    static_cast<Command *>(this->command_undoCmds.top())->checkpoint = v.getDescription();
 }

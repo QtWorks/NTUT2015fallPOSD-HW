@@ -28,7 +28,7 @@ void ShapeQGraphicsItem::setPen(QPen &pen) {
  */
 void ShapeQGraphicsItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) {
 
-    if(!this->scene()){
+    if (!this->scene()) {
         painter->setPen(_pen);
         this->draw(painter);
         return;
@@ -116,6 +116,8 @@ void ShapeQGraphicsItem::mouseReleaseEvent(QGraphicsSceneMouseEvent *event) {
         qreal diffX = _dragEnd.x() - _dragStart.x();
         qreal diffY = _dragEnd.y() - _dragStart.y();
 
+        this->w->doCmdMovePre();
+
         this->_x += static_cast<int>(diffX);
         this->_y += static_cast<int>(diffY);
 
@@ -123,6 +125,9 @@ void ShapeQGraphicsItem::mouseReleaseEvent(QGraphicsSceneMouseEvent *event) {
 
         this->setPos(pos().x() + _x, pos().y() + _y);
         this->notifyMove(_x, _y);
+
+        this->w->doCmdMove();
+
         _x = 0;
         _y = 0;
         this->scene()->setSceneRect(this->scene()->itemsBoundingRect());
@@ -150,6 +155,6 @@ ShapeQGraphicsItem::ShapeQGraphicsItem(Graphics *g)
 void ShapeQGraphicsItem::notifyMove(int x, int y) {
 }
 
-Graphics* ShapeQGraphicsItem::getGraphics() {
+Graphics *ShapeQGraphicsItem::getGraphics() {
     return this->_graphics;
 }
