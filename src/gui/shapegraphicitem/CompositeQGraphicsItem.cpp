@@ -38,12 +38,12 @@ void CompositeQGraphicsItem::setGraphics(Graphics *g) {
 }
 
 void CompositeQGraphicsItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) {
+    ShapeQGraphicsItem::paint(painter, option, widget);
     for (auto c : childs) {
         painter->translate(this->boundingbox().x(), this->boundingbox().y());
         c->paint(painter, option, widget);
         painter->translate(-this->boundingbox().x(), -this->boundingbox().y());
     }
-    ShapeQGraphicsItem::paint(painter, option, widget);
 }
 
 void CompositeQGraphicsItem::notifyMove(int x, int y) {
