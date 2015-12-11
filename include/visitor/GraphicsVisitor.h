@@ -18,5 +18,4 @@ public:
     virtual void leave() { }
 };
 
-
 #endif

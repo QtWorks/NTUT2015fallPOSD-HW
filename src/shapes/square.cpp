@@ -36,3 +36,8 @@ int Square::getY() const {
 int Square::getLength() {
     return _length;
 }
+
+void Square::moveBy(int x, int y) {
+    this->_llx += x;
+    this->_lly += y;
+}

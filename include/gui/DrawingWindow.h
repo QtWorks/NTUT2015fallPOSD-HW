@@ -75,15 +75,15 @@ private slots:
     void doAboutDeveloper();
 
     void doOpenFile();
-
     void doSaveFile();
+
+    void doCreateSquare();
+    void doCreateCircle();
+    void doCreateRectangle();
 
     void setConnect();
 
-    void doCreateSquare();
-
     void AttachAction() const;
-
     void resizeScene() const;
 };
 

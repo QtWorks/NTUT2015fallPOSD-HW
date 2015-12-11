@@ -22,6 +22,8 @@ public:
     virtual QRectF boundingbox() const override;
     virtual QRectF dragBoundingbox() const override;
 
+protected:
+    virtual void notifyMove(int x, int y) override;
 private:
     SimpleGraphics *sg = 0;
     Circle *c = 0;

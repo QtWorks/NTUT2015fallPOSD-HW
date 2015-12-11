@@ -17,6 +17,8 @@ public:
 	virtual int getX() const;
 	virtual int getY() const;
     int getRadius() const;
+
+	virtual void moveBy(int x, int y) override;
 };
 
 #endif // CIRCLE_H

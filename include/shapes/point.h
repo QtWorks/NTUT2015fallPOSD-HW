@@ -14,6 +14,8 @@ public:
 	string print();
 	int getX() const;
 	int getY() const;
+	void setX(int _x);
+	void setY(int _y);
 };
 
 #endif // POINT_H

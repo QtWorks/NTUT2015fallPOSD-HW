@@ -37,3 +37,8 @@ int Circle::getY() const {
 int Circle::getRadius() const {
 	return _radius;
 }
+
+void Circle::moveBy(int x, int y) {
+	this->_cx += x;
+	this->_cy += y;
+}

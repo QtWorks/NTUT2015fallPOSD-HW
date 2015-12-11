@@ -32,3 +32,9 @@ QRectF CircleQGraphicsItem::dragBoundingbox() const {
 CircleQGraphicsItem::CircleQGraphicsItem() : ShapeQGraphicsItem() {
     this->setPos(0, 0);
 }
+
+void CircleQGraphicsItem::notifyMove(int x, int y) {
+    if(c){
+        this->c->moveBy(x,y);
+    }
+}

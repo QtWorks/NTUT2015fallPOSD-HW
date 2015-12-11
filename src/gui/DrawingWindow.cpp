@@ -16,6 +16,7 @@
 #include "MultiRootGraphicFactory.h"
 
 #include "compositegraphics.h"
+#include "RootGraphics.h"
 #include "simplegraphics.h"
 
 using namespace std;
@@ -24,7 +25,7 @@ DrawingWindow::DrawingWindow() {
     this->setWindowTitle("POSD Homework#5");
     this->resize(800, 600);
 
-    this->activateGraphics = new CompositeGraphics();
+    this->activateGraphics = new RootGraphics();
 
     createMenuBar();
     createToolMenuBar();
@@ -60,6 +61,8 @@ void DrawingWindow::setConnect() {
     connect(loadFileAction, SIGNAL(triggered(bool)), this, SLOT(doOpenFile()));
     connect(saveFileAction, SIGNAL(triggered(bool)), this, SLOT(doSaveFile()));
     connect(createSquareAction, SIGNAL(triggered(bool)), this, SLOT(doCreateSquare()));
+    connect(createCircleAction, SIGNAL(triggered(bool)), this, SLOT(doCreateCircle()));
+    connect(createRectangleAction, SIGNAL(triggered(bool)), this, SLOT(doCreateRectangle()));
 }
 
 void DrawingWindow::AttachAction() const {
@@ -176,9 +179,20 @@ void DrawingWindow::showWarningDialog(string message) {
 }
 
 void DrawingWindow::doCreateSquare() {
-    Shape *square = new Square(0, 0, 50);
+    Shape *square = new Square(0, 0, 100);
     this->activateGraphics->add(new SimpleGraphics(square));
     updateScene();
 }
 
 
+void DrawingWindow::doCreateCircle() {
+    Shape *square = new Circle(0, 0, 50);
+    this->activateGraphics->add(new SimpleGraphics(square));
+    updateScene();
+}
+
+void DrawingWindow::doCreateRectangle() {
+    Shape *square = new Rectangle(0, 0, 300, 150);
+    this->activateGraphics->add(new SimpleGraphics(square));
+    updateScene();
+}

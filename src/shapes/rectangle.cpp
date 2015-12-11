@@ -46,3 +46,8 @@ int Rectangle::getWidth() {
 int Rectangle::getHeight() {
     return _l;
 }
+
+void Rectangle::moveBy(int x, int y) {
+    this->_llc.setX(_llc.getX() + x);
+    this->_llc.setY(_llc.getY() + y);
+}

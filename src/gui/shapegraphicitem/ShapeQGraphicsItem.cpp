@@ -115,11 +115,11 @@ void ShapeQGraphicsItem::mouseReleaseEvent(QGraphicsSceneMouseEvent *event) {
     QPointF currentPoint = pos();
 
     this->setPos(pos().x() + _x, pos().y() + _y);
+    this->notifyMove(_x, _y);
     _x = 0;
     _y = 0;
     this->scene()->setSceneRect(this->scene()->itemsBoundingRect());
 
-//    this->setPos(_x, _y);
 
     cout << "New Location Point: (" << pos().toPoint().x() << ", " << pos().toPoint().y() << ")" << endl;
 
@@ -134,4 +134,7 @@ void ShapeQGraphicsItem::setGraphics(Graphics *g) {
 ShapeQGraphicsItem::ShapeQGraphicsItem(Graphics *g)
         : ShapeQGraphicsItem::ShapeQGraphicsItem() {
     this->setGraphics(g);
+}
+
+void ShapeQGraphicsItem::notifyMove(int x, int y) {
 }
