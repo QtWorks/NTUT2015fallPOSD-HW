@@ -38,15 +38,3 @@ void CompositeQGraphicsItem::paint(QPainter *painter, const QStyleOptionGraphics
     }
     ShapeQGraphicsItem::paint(painter, option, widget);
 }
-
-void CompositeQGraphicsItem::mousePressEvent(QGraphicsSceneMouseEvent *event) {
-    ShapeQGraphicsItem::mousePressEvent(event);
-}
-
-void CompositeQGraphicsItem::mouseMoveEvent(QGraphicsSceneMouseEvent *event) {
-    ShapeQGraphicsItem::mouseMoveEvent(event);
-}
-
-void CompositeQGraphicsItem::mouseReleaseEvent(QGraphicsSceneMouseEvent *event) {
-    ShapeQGraphicsItem::mouseReleaseEvent(event);
-}

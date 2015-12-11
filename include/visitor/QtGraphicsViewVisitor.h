@@ -19,6 +19,8 @@ public:
     virtual void visitSimpleGraphic(SimpleGraphics *graphics) override;
     virtual void visitCompositeGraphic(CompositeGraphics *graphics) override;
 
+
+    virtual void visitRootGraphic(RootGraphics *graphics);
 private:
 
     QPen *greenPen;

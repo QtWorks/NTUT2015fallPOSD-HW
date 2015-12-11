@@ -13,3 +13,6 @@ void AreaVisitor::visitSimpleGraphic(SimpleGraphics *simpleGraphics) {
 int AreaVisitor::area() {
     return _areaSum;
 }
+
+void AreaVisitor::visitRootGraphic(RootGraphics *graphics) {
+}

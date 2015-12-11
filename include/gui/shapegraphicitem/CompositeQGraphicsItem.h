@@ -20,17 +20,13 @@ public:
 
     virtual void setGraphics(Graphics *g) override;
     virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) override;
-    virtual QRectF dragBoundingbox() const;
+    virtual QRectF dragBoundingbox() const override;
 
     vector<ShapeQGraphicsItem *> childs;
 protected:
-    virtual void draw(QPainter *painter);
-    virtual QRectF boundingbox() const;
-    virtual void dragDraw(QPainter *painter);
-
-    virtual void mousePressEvent(QGraphicsSceneMouseEvent *event) override;
-    virtual void mouseMoveEvent(QGraphicsSceneMouseEvent *event) override;
-    virtual void mouseReleaseEvent(QGraphicsSceneMouseEvent *event) override;
+    virtual void draw(QPainter *painter) override;
+    virtual QRectF boundingbox() const override;
+    virtual void dragDraw(QPainter *painter) override;
 private:
     CompositeGraphics *cg = 0;
 

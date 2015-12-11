@@ -7,13 +7,13 @@
 using std::vector;
 
 class CompositeGraphics : public Graphics {
-private:
+protected:
 	vector<Graphics *> _graphics;
 public:
 	virtual void add(Graphics *);
 	virtual BoundingBox getBoundingBox() const;
 	int size() const;
-	void accept(GraphicsVisitor& graphicsVisitor);
+	virtual void accept(GraphicsVisitor& graphicsVisitor);
 };
 
 #endif // COMPOSITEGRAPHICS_H

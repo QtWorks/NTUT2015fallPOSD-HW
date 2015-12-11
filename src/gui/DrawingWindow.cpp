@@ -13,6 +13,7 @@
 #include "QtGraphicsViewVisitor.h"
 #include "DescriptionVisitor.h"
 #include "GraphicsFactory.h"
+#include "MultiRootGraphicFactory.h"
 
 #include "compositegraphics.h"
 #include "simplegraphics.h"
@@ -147,7 +148,7 @@ void DrawingWindow::doSaveFile() {
 }
 
 void DrawingWindow::loadFile(std::string filename) {
-    GraphicsFactory *graphicsFactory = new GraphicsFactory;
+    GraphicsFactory *graphicsFactory = new MultiRootGraphicFactory;
     try {
         Graphics *graphics = graphicsFactory->buildGraphicsFromFile(filename.c_str());
         this->activateGraphics = graphics;

@@ -17,6 +17,8 @@ private:
 public:
     virtual void visitSimpleGraphic(SimpleGraphics *simpleGraphics);
     virtual void visitCompositeGraphic(CompositeGraphics *compositeGraphics);
+
+    virtual void visitRootGraphic(RootGraphics *graphics);
     int area();
 };
 

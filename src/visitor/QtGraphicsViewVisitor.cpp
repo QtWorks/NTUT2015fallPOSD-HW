@@ -36,6 +36,10 @@ void QtGraphicsViewVisitor::visitSimpleGraphic(SimpleGraphics *graphics) {
     scene->addItem(item);
 }
 
+void QtGraphicsViewVisitor::visitRootGraphic(RootGraphics *graphics) {
+    
+}
+
 void QtGraphicsViewVisitor::visitCompositeGraphic(CompositeGraphics *graphics) {
     BoundingBox a = graphics->getBoundingBox();
     this->drawBoundingBox(a);

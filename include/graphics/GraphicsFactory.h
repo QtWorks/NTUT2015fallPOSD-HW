@@ -13,7 +13,7 @@ class GraphicsFactory {
 public:
     GraphicsFactory();
 
-    Graphics *buildGraphicsFromFile(const char *fileName);
+    virtual Graphics *buildGraphicsFromFile(const char *fileName);
 
     string fileContentsAsString(const char *fileName);
 
@@ -23,7 +23,7 @@ public:
 
     std::stack<std::pair<int, Graphics *>> &getBuildStack() { return _buildStask; }
 
-private:
+protected:
     std::stack<std::pair<int, Graphics *>> _buildStask;
 };
 

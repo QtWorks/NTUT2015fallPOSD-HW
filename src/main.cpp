@@ -6,6 +6,7 @@
 #include "utHW3.h"
 #include "ta.h"
 #include "utGraphicFactory.h"
+#include "utMultiRootGraphics.h"
 #include "utTryQt.h"
 
 int main(int argc, char **argv) {

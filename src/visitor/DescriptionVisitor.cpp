@@ -3,32 +3,13 @@
 #include "simplegraphics.h"
 
 void DescriptionVisitor::visitSimpleGraphic(SimpleGraphics *simpleGraphics) {
-//    int space = _level.size();
-//    for (int i = 0; i < space; i++) {
-//        this->_oss << "  ";
-//    }
     this->printPrefix();
     this->_oss << simpleGraphics->getShape()->describe() << "\n";
-
-//    if (_level.size() > 0) {
-//        if (--_level[_level.size() - 1] == 0) {
-//            _level.pop_back();
-//        }
-//    }
 }
 
 void DescriptionVisitor::visitCompositeGraphic(CompositeGraphics *compositeGraphics) {
-//    int space = _level.size();
-//    for (int i = 0; i < space; i++) {
-//        this->_oss << "  ";
-//    }
     this->printPrefix();
     this->_oss << "Comp " << compositeGraphics->getBoundingBox().describe() << "\n";
-//    if (compositeGraphics->size() > 0) {
-//        _level.push_back(compositeGraphics->size());
-//    } else {
-//
-//    }
 }
 
 string DescriptionVisitor::getDescription() {
@@ -50,4 +31,8 @@ void DescriptionVisitor::leave() {
 
 void DescriptionVisitor::printPrefix() {
     _oss << prefix;
+}
+
+void DescriptionVisitor::visitRootGraphic(RootGraphics *graphics) {
+
 }

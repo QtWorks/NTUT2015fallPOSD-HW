@@ -91,7 +91,14 @@ set(SOURCE_FILES
         src/main.cpp
 
 
-        src/gui/shapegraphicitem/CompositeQGraphicsItem.cpp include/gui/shapegraphicitem/CompositeQGraphicsItem.h)
+        src/gui/shapegraphicitem/CompositeQGraphicsItem.cpp
+        include/gui/shapegraphicitem/CompositeQGraphicsItem.h
+
+        src/graphices/RootGraphics.cpp
+        include/graphics/RootGraphics.h
+
+
+        src/graphices/MultiRootGraphicFactory.cpp include/graphics/MultiRootGraphicFactory.h src/test/utMultiRootGraphics.h)
 
 add_library(cppunitlite STATIC IMPORTED)
 set_property(TARGET cppunitlite PROPERTY IMPORTED_LOCATION ${PROJECT_SOURCE_DIR}/lib/cppunitlite/libcppunitlite.a)
