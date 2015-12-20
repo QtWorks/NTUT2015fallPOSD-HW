@@ -116,10 +116,15 @@ void ShapeQGraphicsItem::mouseReleaseEvent(QGraphicsSceneMouseEvent *event) {
         qreal diffX = _dragEnd.x() - _dragStart.x();
         qreal diffY = _dragEnd.y() - _dragStart.y();
 
+        int diffX_int = static_cast<int>(diffX);
+        int diffY_int = static_cast<int>(diffY);
+
+        if (diffX_int == 0 && diffY == 0) return;
+
         this->w->doCmdMovePre();
 
-        this->_x += static_cast<int>(diffX);
-        this->_y += static_cast<int>(diffY);
+        this->_x += diffX_int;
+        this->_y += diffY_int;
 
         QPointF currentPoint = pos();
 
@@ -133,8 +138,6 @@ void ShapeQGraphicsItem::mouseReleaseEvent(QGraphicsSceneMouseEvent *event) {
         this->scene()->setSceneRect(this->scene()->itemsBoundingRect());
 
         this->setSelected(false);
-
-        cout << "New Location Point: (" << pos().toPoint().x() << ", " << pos().toPoint().y() << ")" << endl;
 
         this->scene()->update();
         this->update();

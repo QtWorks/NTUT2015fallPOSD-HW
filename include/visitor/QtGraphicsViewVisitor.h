@@ -30,12 +30,14 @@ public:
 
     virtual void enter() override;
     virtual void leave() override;
+    void draw();
 private:
 
     QPen *greenPen;
     QPen *bluePen;
 
     stack<CompositeQGraphicsItem *> v;
+    stack<ShapeQGraphicsItem *> rootItem;
 
     QGraphicsScene *scene;
     void drawCircle(Circle &shape);

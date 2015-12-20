@@ -1,6 +1,7 @@
 #include "gui/shapegraphicitem/RectangleQGraphicsItem.h"
 
 void RectangleQGraphicsItem::draw(QPainter *painter) {
+    painter->setBrush(Qt::blue);
     painter->drawRect(boundingbox());
 }
 

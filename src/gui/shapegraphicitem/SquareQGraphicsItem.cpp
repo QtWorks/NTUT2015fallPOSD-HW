@@ -1,6 +1,7 @@
 #include "gui/shapegraphicitem/SquareQGraphicsItem.h"
 
 void SquareQGraphicsItem::draw(QPainter *painter) {
+    painter->setBrush(Qt::blue);
     painter->drawRect(boundingbox());
 }
 

@@ -8,14 +8,16 @@
 #include "gui/shapegraphicitem/SquareQGraphicsItem.h"
 #include "gui/shapegraphicitem/CompositeQGraphicsItem.h"
 
+#include <stack>
+
 using namespace std;
 
 QtGraphicsViewVisitor::QtGraphicsViewVisitor(QGraphicsScene *scene)
         : GraphicsVisitor(), scene(scene) {
     greenPen = new QPen(Qt::green);
     greenPen->setWidth(greenPen->width() * 2);
-    bluePen = new QPen(Qt::blue);
-    bluePen->setWidth(bluePen->width() * 2);
+    bluePen = new QPen(Qt::black);
+    bluePen->setWidth(bluePen->width() * 3);
 
 }
 
@@ -36,11 +38,15 @@ void QtGraphicsViewVisitor::visitSimpleGraphic(SimpleGraphics *graphics) {
     item->w = this->w;
 
     if (v.empty()) {
-        scene->addItem(item);
+//        scene->addItem(item);
+        this->rootItem.push(item);
     } else {
         item->_relativeX = static_cast<CompositeQGraphicsItem *>(v.top())->getGraphics()->getBoundingBox().getX();
         item->_relativeY = static_cast<CompositeQGraphicsItem *>(v.top())->getGraphics()->getBoundingBox().getY();
-        static_cast<CompositeQGraphicsItem *>(v.top())->childs.push_back(item);
+
+        CompositeQGraphicsItem *i = static_cast<CompositeQGraphicsItem *>(v.top());
+        i->childs.insert(i->childs.begin(), item);
+//        static_cast<CompositeQGraphicsItem *>(v.top())->childs.push_back(item);
     }
 }
 
@@ -97,10 +103,20 @@ void QtGraphicsViewVisitor::leave() {
     if (!v.empty()) {
         q->_relativeX = static_cast<CompositeQGraphicsItem *>(v.top())->getGraphics()->getBoundingBox().getX();
         q->_relativeY = static_cast<CompositeQGraphicsItem *>(v.top())->getGraphics()->getBoundingBox().getY();
-        static_cast<CompositeQGraphicsItem *>(v.top())->childs.push_back(q);
+        CompositeQGraphicsItem *i = static_cast<CompositeQGraphicsItem *>(v.top());
+        i->childs.insert(i->childs.begin(), q);
+//        static_cast<CompositeQGraphicsItem *>(v.top())->childs.push_back(q);
     } else {
         q->_relativeX = 0;
         q->_relativeY = 0;
-        scene->addItem(q);
+        rootItem.push(q);
+//        scene->addItem(q);
+    }
+}
+
+void QtGraphicsViewVisitor::draw() {
+    while (!rootItem.empty()){
+        scene->addItem(rootItem.top());
+        rootItem.pop();
     }
 }

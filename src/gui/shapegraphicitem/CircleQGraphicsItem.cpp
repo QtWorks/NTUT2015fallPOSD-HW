@@ -8,6 +8,7 @@ void CircleQGraphicsItem::setGraphics(Graphics *g) {
 }
 
 void CircleQGraphicsItem::draw(QPainter *painter) {
+    painter->setBrush(Qt::blue);
     painter->drawEllipse(boundingbox());
 }
 

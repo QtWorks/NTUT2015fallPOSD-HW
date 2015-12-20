@@ -41,6 +41,8 @@ DrawingWindow::DrawingWindow() {
     createMenuBar();
     createToolMenuBar();
     createGraphicsView();
+
+    this->loadFile("00.txt");
 }
 
 DrawingWindow::~DrawingWindow() {
@@ -216,8 +218,8 @@ void DrawingWindow::updateScene() {
     mainWidget->getScene()->addItem(new CoordinateAxisGraphicsItem);
     QtGraphicsViewVisitor *visitor = new QtGraphicsViewVisitor(mainWidget->getScene());
     visitor->w = this;
-    cout << "test";
     activateGraphics->accept(*visitor);
+    visitor->draw();
     mainWidget->getScene()->update();
     resizeScene();
 }
@@ -255,7 +257,6 @@ void DrawingWindow::doGroup() {
                 static_cast<ShapeQGraphicsItem *>(e)->getGraphics());
     }
     this->activateGraphics->add(cg);
-    cout << "\n\nNumber of item : " << this->mainWidget->getScene()->items().size() << "\n\n";
     this->updateScene();
 }
 
