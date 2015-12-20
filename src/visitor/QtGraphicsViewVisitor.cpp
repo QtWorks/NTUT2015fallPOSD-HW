@@ -15,7 +15,7 @@ using namespace std;
 QtGraphicsViewVisitor::QtGraphicsViewVisitor(QGraphicsScene *scene)
         : GraphicsVisitor(), scene(scene) {
     greenPen = new QPen(Qt::green);
-    greenPen->setWidth(greenPen->width() * 2);
+    greenPen->setWidth(greenPen->width() * 4);
     bluePen = new QPen(Qt::black);
     bluePen->setWidth(bluePen->width() * 3);
 
