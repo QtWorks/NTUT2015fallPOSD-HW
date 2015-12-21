@@ -61,9 +61,11 @@ void DrawingWindow::initializeMenuAction() {
     saveFileAction = new QAction(QIcon("./icon/save_2.png"), "saveFile", this);
 
     aboutDeveloperAction = new QAction("aboutDeveloper", this);
+
     createSquareAction = new QAction(QIcon("./icon/square.png"), "createSquare", this);
     createRectangleAction = new QAction(QIcon("./icon/rectangle.png"), "createRectangle", this);
     createCircleAction = new QAction(QIcon("./icon/circle.png"), "createCircle", this);
+
     groupAction = new QAction(QIcon("./icon/group.png"), "group", this);
     ungroupAction = new QAction(QIcon("./icon/ungroup.png"), "ungroup", this);
 
@@ -134,17 +136,27 @@ void DrawingWindow::createToolMenuBar() {
     toolMenuBar->addAction(loadFileAction);
     toolMenuBar->addAction(saveFileAction);
 
+    toolMenuBar->addSeparator();
+
     toolMenuBar->addAction(createCircleAction);
     toolMenuBar->addAction(createRectangleAction);
     toolMenuBar->addAction(createSquareAction);
 
+    toolMenuBar->addSeparator();
+
     toolMenuBar->addAction(groupAction);
     toolMenuBar->addAction(ungroupAction);
+
+    toolMenuBar->addSeparator();
 
     toolMenuBar->addAction(undoAction);
     toolMenuBar->addAction(redoAction);
 
+    toolMenuBar->addSeparator();
+
     toolMenuBar->addAction(deleteSimpleGraphicAction);
+
+    toolMenuBar->addSeparator();
 
     this->addToolBar(toolMenuBar);
 }
