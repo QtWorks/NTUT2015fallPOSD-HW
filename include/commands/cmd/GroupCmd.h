@@ -6,7 +6,7 @@
 #define POSD_104598003_HW5_GROUPCMD_H
 
 #include "Command.h"
-#include "DrawingWindow.h";
+#include "DrawingWindow.h"
 
 class GroupCmd : public Command{
 

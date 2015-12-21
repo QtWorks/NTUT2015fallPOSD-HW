@@ -12,22 +12,12 @@
 #include "gui/CoordinateAxisGraphicsItem.h"
 
 #include "QtGraphicsViewVisitor.h"
-#include "DescriptionVisitor.h"
 #include "GraphicsFactory.h"
 #include "MultiRootGraphicFactory.h"
 
-#include "compositegraphics.h"
 #include "RootGraphics.h"
 #include "simplegraphics.h"
-#include "compositegraphics.h"
 
-#include "Command.h"
-#include "CreateCircleCmd.h"
-#include "CreateRectangleCmd.h"
-#include "CreateSquareCmd.h"
-#include "GroupCmd.h"
-#include "UnGroupCmd.h"
-#include "DeleteCmd.h"
 #include "MoveCmd.h"
 
 using namespace std;

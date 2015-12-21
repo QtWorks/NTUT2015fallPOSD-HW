@@ -33,10 +33,10 @@ private:
 public:
     virtual void visitSimpleGraphic(SimpleGraphics *simpleGraphics) override;
     virtual void visitCompositeGraphic(CompositeGraphics *compositeGraphics) override;
-
-    virtual void visitRootGraphic(RootGraphics *graphics);
+    virtual void visitRootGraphic(RootGraphics *graphics) override ;
     virtual void enter() override;
     virtual void leave() override;
+
     void printPrefix();
     string getDescription();
 };

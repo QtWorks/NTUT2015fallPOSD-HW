@@ -12,15 +12,16 @@ private:
     int _length;
 public:
     Square(int llx, int lly, int length);
-    string print();
-    virtual int area() const;
-    virtual BoundingBox getBoundingBox() const;
-    virtual string describe();
-    virtual int getX() const;
-    virtual int getY() const;
+    string print() override;
+    virtual int area() const override;
+    virtual BoundingBox getBoundingBox() const override;
+    virtual string describe() override;
+    virtual int getX() const override;
+    virtual int getY() const override;
+    virtual void moveBy(int x, int y) override;
+
     int getLength();
 
-    virtual void moveBy(int x, int y) override;
 };
 
 #endif // SQUARE_H

@@ -26,7 +26,7 @@ public:
 
     virtual void visitSimpleGraphic(SimpleGraphics *graphics) override;
     virtual void visitCompositeGraphic(CompositeGraphics *graphics) override;
-    virtual void visitRootGraphic(RootGraphics *graphics);
+    virtual void visitRootGraphic(RootGraphics *graphics) override ;
 
     virtual void enter() override;
     virtual void leave() override;

@@ -6,13 +6,14 @@
 #define POSD_104598003_HW5_UNGROUPCMD_H
 
 #include "Command.h"
-#include "DrawingWindow.h";
+#include "DrawingWindow.h"
 
 class UnGroupCmd : public Command {
 
 public:
     string checkpoint2;
     bool isExcute = false;
+
     UnGroupCmd(DrawingWindow *d) : Command(d) { }
 
 public:

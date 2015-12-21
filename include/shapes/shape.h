@@ -31,7 +31,7 @@ public:
 
     virtual int getX() const { return 0; }
 
-    virtual int getY() { return 0; }
+    virtual int getY() const { return 0; }
 
     virtual void moveBy(int x, int y);
 };
