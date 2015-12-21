@@ -15,9 +15,9 @@ using namespace std;
 QtGraphicsViewVisitor::QtGraphicsViewVisitor(QGraphicsScene *scene)
         : GraphicsVisitor(), scene(scene) {
     greenPen = new QPen(Qt::green);
-    greenPen->setWidth(greenPen->width() * 4);
-    bluePen = new QPen(Qt::black);
-    bluePen->setWidth(bluePen->width() * 3);
+    greenPen->setWidth(greenPen->width() * 2);
+    blackPen = new QPen(Qt::black);
+    blackPen->setWidth(blackPen->width() * 2);
 
 }
 
@@ -34,7 +34,7 @@ void QtGraphicsViewVisitor::visitSimpleGraphic(SimpleGraphics *graphics) {
     } else if (describe[0] == 'C') {
         item = new CircleQGraphicsItem(graphics);
     }
-    item->setPen(*bluePen);
+    item->setPen(*blackPen);
     item->w = this->w;
 
     if (v.empty()) {
@@ -67,7 +67,7 @@ void QtGraphicsViewVisitor::drawCircle(Circle &shape) {
     int x = shape.getX();
     int y = shape.getY();
     int r = shape.getRadius();
-    scene->addEllipse(x - r, y - r, r * 2, r * 2, *bluePen);
+    scene->addEllipse(x - r, y - r, r * 2, r * 2, *blackPen);
 }
 
 void QtGraphicsViewVisitor::drawRectangle(Rectangle &shape) {
@@ -75,14 +75,14 @@ void QtGraphicsViewVisitor::drawRectangle(Rectangle &shape) {
     int y = shape.getY();
     int w = shape.getWidth();
     int h = shape.getHeight();
-    scene->addRect(x, y, w, h, *bluePen);
+    scene->addRect(x, y, w, h, *blackPen);
 }
 
 void QtGraphicsViewVisitor::drawSquare(Square &shape) {
     int x = shape.getX();
     int y = shape.getY();
     int l = shape.getLength();
-    scene->addRect(x, y, l, l, *bluePen);
+    scene->addRect(x, y, l, l, *blackPen);
 }
 
 void QtGraphicsViewVisitor::drawBoundingBox(BoundingBox &boundingBox) {

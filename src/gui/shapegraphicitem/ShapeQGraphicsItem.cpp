@@ -12,8 +12,8 @@ ShapeQGraphicsItem::ShapeQGraphicsItem()
         : _x(0), _y(0), _pen(QPen(QColor(0, 0, 0, 255))) {
     setPos(_x, _y);
     setFlag(GraphicsItemFlag::ItemIsSelectable, true);
-//    this->setFlag(QGraphicsItem::ItemIgnoresTransformations);
-//    this->setFlag(QGraphicsItem::ItemIsMovable);
+    _selectedPen.setColor(Qt::red);
+    _selectedPen.setWidth(2);
 }
 
 /**
@@ -27,7 +27,6 @@ void ShapeQGraphicsItem::setPen(QPen &pen) {
  * Paint event
  */
 void ShapeQGraphicsItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) {
-
     if (!this->scene()) {
         painter->setPen(_pen);
         this->draw(painter);
@@ -35,20 +34,18 @@ void ShapeQGraphicsItem::paint(QPainter *painter, const QStyleOptionGraphicsItem
     }
 
     if (isSelected() && !_isDraging) {
-        _pen.setStyle(Qt::PenStyle::DashLine);
-        painter->setPen(_pen);
+        painter->setPen(_selectedPen);
         this->draw(painter);
-        return;
-    }
-
-    if (_isDraging) {
-        _pen.setStyle(Qt::DotLine);
-        painter->setPen(_pen);
-        this->dragDraw(painter);
-    } else {
-        _pen.setStyle(Qt::SolidLine);
-        painter->setPen(_pen);
-        this->draw(painter);
+    }else{
+        if (_isDraging) {
+            _pen.setStyle(Qt::DotLine);
+            painter->setPen(_pen);
+            this->dragDraw(painter);
+        } else {
+            _pen.setStyle(Qt::SolidLine);
+            painter->setPen(_pen);
+            this->draw(painter);
+        }
     }
 }
 
@@ -119,7 +116,11 @@ void ShapeQGraphicsItem::mouseReleaseEvent(QGraphicsSceneMouseEvent *event) {
         int diffX_int = static_cast<int>(diffX);
         int diffY_int = static_cast<int>(diffY);
 
-        if (diffX_int == 0 && diffY == 0) return;
+        if (diffX_int == 0 && diffY == 0) {
+            this->scene()->update();
+            this->update();
+            return;
+        }
 
         this->w->doCmdMovePre();
 

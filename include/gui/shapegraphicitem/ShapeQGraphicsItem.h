@@ -68,6 +68,7 @@ protected:
 
 private:
     QPen _pen;
+    QPen _selectedPen;
 };
 
 #endif

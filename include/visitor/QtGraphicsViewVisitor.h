@@ -34,7 +34,7 @@ public:
 private:
 
     QPen *greenPen;
-    QPen *bluePen;
+    QPen *blackPen;
 
     stack<CompositeQGraphicsItem *> v;
     stack<ShapeQGraphicsItem *> rootItem;
