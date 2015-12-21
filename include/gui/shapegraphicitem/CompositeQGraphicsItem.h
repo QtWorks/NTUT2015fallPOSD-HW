@@ -23,13 +23,14 @@ public:
     virtual QRectF dragBoundingbox() const override;
     vector<ShapeQGraphicsItem *> childs;
     virtual void notifyMove(int x, int y) override;
-protected:
 
-
+    virtual bool isCollision(int x, int y) override;
 protected:
     virtual void draw(QPainter *painter) override;
     virtual QRectF boundingbox() const override;
     virtual void dragDraw(QPainter *painter) override;
+    virtual void mouseReleaseEvent(QGraphicsSceneMouseEvent *event) override;
+
 private:
     CompositeGraphics *cg = 0;
 

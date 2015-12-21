@@ -20,13 +20,14 @@ public:
     RectangleQGraphicsItem() : ShapeQGraphicsItem() { }
 
 public:
-
     virtual void draw(QPainter *painter) override;
     virtual void dragDraw(QPainter *painter) override;
     virtual QRectF boundingbox() const override;
     virtual QRectF dragBoundingbox() const override;
     virtual void setGraphics(Graphics *g) override;
     virtual void notifyMove(int x, int y) override;
+
+    virtual bool isCollision(int x, int y) override;
 protected:
 
 private:

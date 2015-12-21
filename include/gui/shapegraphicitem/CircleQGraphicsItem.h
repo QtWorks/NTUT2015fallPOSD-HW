@@ -22,6 +22,8 @@ public:
     virtual QRectF boundingbox() const override;
     virtual QRectF dragBoundingbox() const override;
     virtual void notifyMove(int x, int y) override;
+
+    virtual bool isCollision(int x, int y) override;
 protected:
 
 private:

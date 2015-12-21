@@ -6,26 +6,30 @@
 #define DRAWING_AREA_H
 
 #include <QWidget>
-#include <QVBoxLayout>
+#include <QBoxLayout>
 #include <QGraphicsView>
+#include <QTreeView>
 
 class DrawingArea : public QWidget {
-    Q_OBJECT
-
+Q_OBJECT
 
 public:
     DrawingArea();
     virtual ~DrawingArea();
 
-    QGraphicsScene * getScene();
+    QGraphicsScene *getScene();
+    QTreeView *getTreeView();
     QGraphicsView *getView();
 
 protected:
 private:
-    QVBoxLayout *layout;
+    QBoxLayout *layout;
     QGraphicsView *view;
     QGraphicsScene *scene;
+    QTreeView *treeView;
+
 private slots:
+
 };
 
 

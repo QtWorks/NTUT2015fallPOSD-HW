@@ -7,6 +7,7 @@
 #include <QMessageBox>
 #include <QFileDialog>
 #include <QtWidgets/qtoolbutton.h>
+#include "QtGraphicsToStandardItemModelVisitor.h"
 #include "gui/shapegraphicitem/ShapeQGraphicsItem.h"
 
 #include "gui/CoordinateAxisGraphicsItem.h"
@@ -38,6 +39,11 @@ DrawingWindow::DrawingWindow() {
 DrawingWindow::~DrawingWindow() {
 
 }
+
+// -------------------------------------------------------------------------------------------------------------------
+/**
+ * Set up GUI
+ */
 
 void DrawingWindow::createMenuBar() {
     fileMenu = this->menuBar()->addMenu("File");
@@ -107,20 +113,6 @@ void DrawingWindow::createGraphicsView() {
     mainWidget->getScene()->addItem(new CoordinateAxisGraphicsItem);
 }
 
-void DrawingWindow::resizeScene() const {
-    QRectF p = mainWidget->getScene()->itemsBoundingRect();
-    int x = p.center().toPoint().x();
-    int y = p.center().toPoint().y();
-
-    int widgetX = static_cast<int>(mainWidget->getScene()->itemsBoundingRect().width()) + 200;
-    int widgetY = static_cast<int>(mainWidget->getScene()->itemsBoundingRect().height()) + 200;
-
-    if (widgetX < 800) widgetX = 800;
-    if (widgetY < 600) widgetY = 600;
-
-    mainWidget->getScene()->setSceneRect(x - widgetX / 2, y - widgetY / 2, widgetX, widgetY);
-}
-
 void DrawingWindow::createToolMenuBar() {
     toolMenuBar = new QToolBar();
     toolMenuBar->addAction(loadFileAction);
@@ -149,6 +141,23 @@ void DrawingWindow::createToolMenuBar() {
     toolMenuBar->addSeparator();
 
     this->addToolBar(toolMenuBar);
+}
+
+// -------------------------------------------------------------------------------------------------------------------
+
+
+void DrawingWindow::resizeScene() const {
+    QRectF p = mainWidget->getScene()->itemsBoundingRect();
+    int x = p.center().toPoint().x();
+    int y = p.center().toPoint().y();
+
+    int widgetX = static_cast<int>(mainWidget->getScene()->itemsBoundingRect().width()) + 200;
+    int widgetY = static_cast<int>(mainWidget->getScene()->itemsBoundingRect().height()) + 200;
+
+    if (widgetX < 800) widgetX = 800;
+    if (widgetY < 600) widgetY = 600;
+
+    mainWidget->getScene()->setSceneRect(x - widgetX / 2, y - widgetY / 2, widgetX, widgetY);
 }
 
 void DrawingWindow::doAboutDeveloper() {
@@ -212,6 +221,15 @@ void DrawingWindow::loadFile(std::string filename) {
         return;
     }
     updateScene();
+    updateTreeModel();
+}
+
+void DrawingWindow::updateTreeModel() {
+    QtGraphicsToStandardItemModelVisitor *modelVisitor = new QtGraphicsToStandardItemModelVisitor;
+    activateGraphics->accept(*modelVisitor);
+    mainWidget->getTreeView()->setModel(0);
+    mainWidget->getTreeView()->setModel(modelVisitor->getModel());
+    mainWidget->getTreeView()->expandAll();
 }
 
 void DrawingWindow::updateScene() {
@@ -224,6 +242,7 @@ void DrawingWindow::updateScene() {
     visitor->draw();
     mainWidget->getScene()->update();
     resizeScene();
+    this->updateTreeModel();
 }
 
 void DrawingWindow::showWarningDialog(string message) {
@@ -253,11 +272,20 @@ void DrawingWindow::doGroup() {
 
     CompositeGraphics *cg = new CompositeGraphics;
 
-    for (auto e : mainWidget->getScene()->selectedItems()) {
-        cg->add(static_cast<ShapeQGraphicsItem *>(e)->getGraphics());
-        static_cast<RootGraphics *>(this->activateGraphics)->remove(
-                static_cast<ShapeQGraphicsItem *>(e)->getGraphics());
+//    for (auto e : mainWidget->getScene()->selectedItems()) {
+//        cg->add(static_cast<ShapeQGraphicsItem *>(e)->getGraphics());
+//        static_cast<RootGraphics *>(this->activateGraphics)->remove(
+//                static_cast<ShapeQGraphicsItem *>(e)->getGraphics());
+//    }
+
+    for (auto e : mainWidget->getScene()->items()) {
+        if (e->isSelected()) {
+            cg->add(static_cast<ShapeQGraphicsItem *>(e)->getGraphics());
+            static_cast<RootGraphics *>(this->activateGraphics)->remove(
+                    static_cast<ShapeQGraphicsItem *>(e)->getGraphics());
+        }
     }
+
     this->activateGraphics->add(cg);
     this->updateScene();
 }
@@ -265,7 +293,10 @@ void DrawingWindow::doGroup() {
 void DrawingWindow::doUnGroup() {
     for (auto e : mainWidget->getScene()->selectedItems()) {
 
-        CompositeGraphics *cg = static_cast<CompositeGraphics *>(static_cast<CompositeQGraphicsItem *>(e)->getGraphics());
+        if (!dynamic_cast<CompositeQGraphicsItem *>(e))return;
+
+        CompositeGraphics *cg =
+                dynamic_cast<CompositeGraphics *>(static_cast<CompositeQGraphicsItem *>(e)->getGraphics());
         if (cg) {
             for (auto gs : cg->_graphics) {
                 this->activateGraphics->add(gs);

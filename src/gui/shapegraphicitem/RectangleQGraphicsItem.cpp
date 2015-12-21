@@ -10,12 +10,10 @@ void RectangleQGraphicsItem::dragDraw(QPainter *painter) {
 }
 
 QRectF RectangleQGraphicsItem::boundingbox() const {
-    if(!this->scene()){
-        if (r) {
+    if (r) {
+        if (!this->scene()) {
             return QRectF(r->getX() - _relativeX, r->getY() - _relativeY, this->r->getWidth(), this->r->getHeight());
         }
-    }
-    if (r) {
         return QRectF(_x, _y, this->r->getWidth(), this->r->getHeight());
     }
     return QRectF(_x, _y, 200, 100);
@@ -37,8 +35,17 @@ void RectangleQGraphicsItem::setGraphics(Graphics *g) {
 
 void RectangleQGraphicsItem::notifyMove(int x, int y) {
     this->r->moveBy(x, y);
-    if(!this->scene()){
+    if (!this->scene()) {
         _relativeX += x;
         _relativeY += y;
     }
+}
+
+bool RectangleQGraphicsItem::isCollision(int x, int y) {
+    Rectangle* r = static_cast<Rectangle *>(static_cast<SimpleGraphics *>(this->_graphics)->getShape());
+    int llx = r->getX();
+    int lly = r->getY();
+    int h = r->getHeight();
+    int w = r->getWidth();
+    return !(x < llx || x > llx + w || y < lly || y > lly + h);
 }

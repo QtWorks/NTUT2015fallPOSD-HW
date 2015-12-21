@@ -42,7 +42,9 @@ public:
     void doGroup();
     void doUnGroup();
     void doDeleteSimpleGraphics();
+
     void updateScene();
+    void updateTreeModel();
 
     void doCmdMovePre();
     void doCmdMove();

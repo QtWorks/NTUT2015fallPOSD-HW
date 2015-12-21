@@ -10,7 +10,7 @@ void SquareQGraphicsItem::dragDraw(QPainter *painter) {
 }
 
 QRectF SquareQGraphicsItem::boundingbox() const {
-    if(!this->scene()){
+    if (!this->scene()) {
         if (s) {
             return QRectF(s->getX() - _relativeX, s->getY() - _relativeY, this->s->getLength(), this->s->getLength());
         }
@@ -37,8 +37,16 @@ void SquareQGraphicsItem::setGraphics(Graphics *g) {
 
 void SquareQGraphicsItem::notifyMove(int x, int y) {
     this->s->moveBy(x, y);
-    if(!this->scene()){
+    if (!this->scene()) {
         _relativeX += x;
         _relativeY += y;
     }
+}
+
+bool SquareQGraphicsItem::isCollision(int x, int y) {
+    Square *s = static_cast<Square *>(static_cast<SimpleGraphics *>(this->_graphics)->getShape());
+    int llx = s->getX();
+    int lly = s->getY();
+    int l = s->getLength();
+    return !(x < llx || x > llx + l || y < lly || y > lly + l);
 }

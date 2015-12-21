@@ -27,16 +27,23 @@ void ShapeQGraphicsItem::setPen(QPen &pen) {
  * Paint event
  */
 void ShapeQGraphicsItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) {
+    this->_graphics->isSelected = this->isSelected();
+    this->w->updateTreeModel();
     if (!this->scene()) {
         painter->setPen(_pen);
+        if (isSelected()) {
+            painter->setPen(_selectedPen);
+        }
         this->draw(painter);
         return;
     }
 
+
+
     if (isSelected() && !_isDraging) {
         painter->setPen(_selectedPen);
         this->draw(painter);
-    }else{
+    } else {
         if (_isDraging) {
             _pen.setStyle(Qt::DotLine);
             painter->setPen(_pen);
@@ -75,38 +82,33 @@ using namespace std;
  * below event are provide a mouse drag event
  */
 void ShapeQGraphicsItem::mousePressEvent(QGraphicsSceneMouseEvent *event) {
-//    cout << "mousePressEvent" << endl;
-
+    QGraphicsItem::mousePressEvent(event);
     if (event->button() == Qt::LeftButton && _dragable) { // only use left button of mouse , can drag grapihcs
         _isDraging = true;
         _dragX = _x;
         _dragY = _y;
         _dragStart = event->pos().toPoint();
-
         this->scene()->update();
         this->update();
     }
-    QGraphicsItem::mousePressEvent(event);
 }
 
 void ShapeQGraphicsItem::mouseMoveEvent(QGraphicsSceneMouseEvent *event) {
-//    cout << "mouseMoveEvent" << endl;
+    QGraphicsItem::mouseMoveEvent(event);
     if (_isDraging) {
         QPoint _draging = event->pos().toPoint();
-
         int diffX = _draging.x() - _dragStart.toPoint().x();
         int diffY = _draging.y() - _dragStart.toPoint().y();
         _dragX = (_x + diffX);
         _dragY = (_y + diffY);
-
         this->scene()->update();
         this->update();
     }
-    QGraphicsItem::mouseMoveEvent(event);
+
 }
 
 void ShapeQGraphicsItem::mouseReleaseEvent(QGraphicsSceneMouseEvent *event) {
-//    cout << "mouseReleaseEvent" << endl;
+    QGraphicsItem::mouseReleaseEvent(event);
     if (_isDraging) {
         _isDraging = false;
         QPointF _dragEnd = event->pos();
@@ -139,12 +141,13 @@ void ShapeQGraphicsItem::mouseReleaseEvent(QGraphicsSceneMouseEvent *event) {
         this->scene()->setSceneRect(this->scene()->itemsBoundingRect());
 
         this->setSelected(false);
+        this->_graphics->isSelected = false;
 
         this->scene()->update();
         this->update();
     }
+    this->w->updateTreeModel();
 
-    QGraphicsItem::mouseReleaseEvent(event);
 }
 
 void ShapeQGraphicsItem::setGraphics(Graphics *g) {
@@ -162,3 +165,5 @@ void ShapeQGraphicsItem::notifyMove(int x, int y) {
 Graphics *ShapeQGraphicsItem::getGraphics() {
     return this->_graphics;
 }
+
+bool ShapeQGraphicsItem::isCollision(int x, int y) { return false; }

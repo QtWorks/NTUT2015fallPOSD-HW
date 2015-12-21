@@ -28,21 +28,22 @@ public:
     void setDragable(bool _dragable);
     void setPen(QPen &pen);
 
+    virtual bool isCollision(int x, int y);
+
     DrawingWindow *w;
-
-
 
     int _relativeX = 0;
     int _relativeY = 0;
 
     virtual void notifyMove(int x, int y);
 
+    Graphics *_graphics = 0;
+
 protected:
 
     int _x;
     int _y;
 
-    Graphics *_graphics = 0;
 
     /**
      * Template method
@@ -62,13 +63,15 @@ protected:
     int _dragY;
 
 
-    virtual void mousePressEvent(QGraphicsSceneMouseEvent *event) override final;
-    virtual void mouseMoveEvent(QGraphicsSceneMouseEvent *event) override final;
-    virtual void mouseReleaseEvent(QGraphicsSceneMouseEvent *event) override final;
+    virtual void mousePressEvent(QGraphicsSceneMouseEvent *event) override;
+    virtual void mouseMoveEvent(QGraphicsSceneMouseEvent *event) override;
+    virtual void mouseReleaseEvent(QGraphicsSceneMouseEvent *event) override;
 
-private:
     QPen _pen;
     QPen _selectedPen;
+
+private:
+
 };
 
 #endif

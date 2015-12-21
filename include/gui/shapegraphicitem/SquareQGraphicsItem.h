@@ -26,6 +26,8 @@ public:
 
     virtual void setGraphics(Graphics *g) override;
     virtual void notifyMove(int x, int y) override;
+
+    virtual bool isCollision(int x, int y) override;
 protected:
 
 private:
