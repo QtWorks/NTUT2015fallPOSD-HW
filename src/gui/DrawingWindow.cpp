@@ -21,6 +21,8 @@
 #include "simplegraphics.h"
 
 #include "MoveCmd.h"
+#include "UpperLayerCmd.h"
+#include "LowerLayerCmd.h"
 
 using namespace std;
 
@@ -33,8 +35,6 @@ DrawingWindow::DrawingWindow() {
     createMenuBar();
     createToolMenuBar();
     createGraphicsView();
-
-    this->loadFile("00.txt");
 }
 
 DrawingWindow::~DrawingWindow() {
@@ -338,7 +338,6 @@ void DrawingWindow::doUndo() {
 }
 
 void DrawingWindow::doRedo() {
-    cout << "Command - Redo -size " << command_redoCmds.size() << endl;
     if (this->command_redoCmds.size() > 0) {
         Command *c = this->command_redoCmds.top();
         this->command_redoCmds.pop();
@@ -352,6 +351,9 @@ void DrawingWindow::doRedo() {
 }
 
 void DrawingWindow::doUpperLayer() {
+    if (selectedTarget && !selectedParent) {
+        selectedParent = static_cast<CompositeGraphics *>(activateGraphics);
+    }
     if (hasSelectedTarget()) {
         vector<Graphics *>::iterator pre = selectedParent->_graphics.begin();
         vector<Graphics *>::iterator target = selectedParent->_graphics.begin();
@@ -366,6 +368,7 @@ void DrawingWindow::doUpperLayer() {
         }
         if (pre != target) {
             iter_swap(pre, target);
+            this->clearSelectd();
             this->updateScene();
         }
     }
@@ -386,6 +389,7 @@ void DrawingWindow::doLowerLayer() {
         }
         if (pre != target) {
             iter_swap(pre, target);
+            this->clearSelectd();
             this->updateScene();
         }
     }
@@ -472,22 +476,39 @@ void DrawingWindow::doCmdMovePre() {
     static_cast<Command *>(this->command_undoCmds.top())->checkpoint = v.getDescription();
 }
 
+void DrawingWindow::doCmdUpperLayer() {
+    if(this->hasSelectedTarget()){
+        Command *c = new UpperLayerCmd(this);
+        this->command_undoCmds.push(c);
+        this->undoAction->setEnabled(true);
+        this->redoAction->setEnabled(false);
+        c->execute();
+        this->clearRedoStack();
+    }
+}
+
+void DrawingWindow::doCmdLowerLayer() {
+    if(this->hasSelectedTarget()){
+        Command *c = new LowerLayerCmd(this);
+        this->command_undoCmds.push(c);
+        this->undoAction->setEnabled(true);
+        this->redoAction->setEnabled(false);
+        c->execute();
+        this->clearRedoStack();
+    }
+}
+
 void DrawingWindow::setSelectedTarget(Graphics *target, CompositeGraphics *parentContainer) {
     this->selectedTarget = target;
     this->selectedParent = parentContainer;
     if (!parentContainer) {
         this->selectedParent = static_cast<CompositeGraphics *>(activateGraphics);
     }
-    cout << "SetSelectedTarget" << endl;
-    cout << this->selectedTarget->getBoundingBox().describe() << endl;
-    cout << "Parent Count : " << this->selectedParent->size() << endl;
-    cout << "\n\n\n";
 }
 
 void DrawingWindow::clearSelectd() {
     this->selectedParent = 0;
     this->selectedTarget = 0;
-    cout << "Clear Selected\n";
 }
 
 bool DrawingWindow::hasSelectedTarget() {

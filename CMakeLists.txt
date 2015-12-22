@@ -66,6 +66,8 @@ set(SOURCE_FILES
         include/commands/cmd/UnGroupCmd.h
         include/commands/cmd/DeleteCmd.h
         include/commands/cmd/MoveCmd.h
+        include/commands/cmd/UpperLayerCmd.h
+        include/commands/cmd/LowerLayerCmd.h
 
 
         src/graphices/compositegraphics.cpp
@@ -118,6 +120,8 @@ set(SOURCE_FILES
         src/commands/cmd/UnGroupCmd.cpp
         src/commands/cmd/DeleteCmd.cpp
         src/commands/cmd/MoveCmd.cpp
+        src/commands/cmd/UpperLayerCmd.cpp
+        src/commands/cmd/LowerLayerCmd.cpp
 
         src/main.cpp
 

@@ -69,13 +69,10 @@ void CompositeQGraphicsItem::notifyMove(int x, int y) {
  * To Handler which GraphicsItem will be Seelcted
  */
 void CompositeQGraphicsItem::mouseReleaseEvent(QGraphicsSceneMouseEvent *event) {
-
-    cout << "mouseReleaseEvent\n";
-    cout << "IsSelected : " << this->isSelected() << "\n";
-
     QPoint p = event->pos().toPoint();
     int x = p.x() + static_cast<int>(this->x());
     int y = p.y() + static_cast<int>(this->y());
+    this->w->clearSelectd();
 
     if (isSelected()) {
 
@@ -104,10 +101,12 @@ void CompositeQGraphicsItem::mouseReleaseEvent(QGraphicsSceneMouseEvent *event) 
                 (*ri)->setSelected(false);
             }
         }
+        if(!this->w->hasSelectedTarget()){
+            this->w->setSelectedTarget(this->_graphics, 0);
+        }
     }
     this->w->updateTreeModel();
     ShapeQGraphicsItem::mouseReleaseEvent(event);
-    cout << "Click Point: (" << x << ", " << y << ")\n";
 }
 
 bool CompositeQGraphicsItem::isCollision(int x, int y) {

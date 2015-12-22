@@ -3,6 +3,7 @@
 //
 
 #include "gui/shapegraphicitem/ShapeQGraphicsItem.h"
+#include "simplegraphics.h"
 #include <QGraphicsScene>
 
 /**
@@ -106,6 +107,9 @@ void ShapeQGraphicsItem::mouseMoveEvent(QGraphicsSceneMouseEvent *event) {
 }
 
 void ShapeQGraphicsItem::mouseReleaseEvent(QGraphicsSceneMouseEvent *event) {
+    if(dynamic_cast<SimpleGraphics *>(this->_graphics) && this->scene()){
+        this->w->clearSelectd();
+    }
     QGraphicsItem::mouseReleaseEvent(event);
     if (_isDraging) {
         _isDraging = false;
@@ -119,8 +123,11 @@ void ShapeQGraphicsItem::mouseReleaseEvent(QGraphicsSceneMouseEvent *event) {
         if (diffX_int == 0 && diffY == 0) {
             this->scene()->update();
             this->update();
-            if(isSelected()){
-                this->w->setSelectedTarget(this->_graphics, 0);
+            if(dynamic_cast<SimpleGraphics *>(this->_graphics) && this->scene()){
+                cout << "\n\nThis is direct attach to root Simple Item\n\n";
+                if(this->isSelected()){
+                    this->w->setSelectedTarget(this->_graphics, 0);
+                }
             }
             return;
         }
