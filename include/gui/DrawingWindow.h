@@ -26,45 +26,67 @@ using std::stack;
 
 class DrawingWindow : public QMainWindow {
 Q_OBJECT
+
+
 public:
     DrawingWindow();
-
     virtual ~DrawingWindow();
 
+    /**
+     * Command
+     */
     stack<Command *> command_undoCmds;
     stack<Command *> command_redoCmds;
 
+    /**
+     * Active Document
+     */
     Graphics *activateGraphics = 0;
 
+    /**
+     * command action actual do
+     */
     void doCreateSquare();
     void doCreateCircle();
     void doCreateRectangle();
+
     void doGroup();
     void doUnGroup();
-    void doDeleteSimpleGraphics();
 
-    void updateScene();
-    void updateTreeModel();
+    void doDeleteSimpleGraphics();
 
     void doCmdMovePre();
     void doCmdMove();
 
+    void doUpperLayer();
+    void doLowerLayer();
+
+    /**
+     * update widget
+     */
+    void updateScene();
+    void updateTreeModel();
+
+    /**
+     * for selected behavior
+     */
+    void setSelectedTarget(Graphics *target, CompositeGraphics *parentContainer);
+    void clearSelectd();
+    bool hasSelectedTarget();
+
 private:
+    /**
+     * Create Widget and setup view
+     */
     void createMenuBar();
-
     void initializeMenuAction();
-
     void createGraphicsView();
-
     void createToolMenuBar();
+    void showWarningDialog(string message);
 
     void loadFile(std::string filename);
 
-    void showWarningDialog(string message);
-
     QString getCurrentPath();
-
-
 
     /**
      * Qt Objects
@@ -92,6 +114,9 @@ private:
     QAction *redoAction;
     QAction *undoAction;
 
+    QAction *upperLayerAction;
+    QAction *lowerLayerAction;
+
     QToolBar *toolMenuBar;
 
     // AboutMenu action
@@ -100,6 +125,8 @@ private:
     // Main View
     DrawingArea *mainWidget;
 
+    Graphics *selectedTarget = 0;
+    CompositeGraphics *selectedParent = 0;
 
 
 private slots:
@@ -115,6 +142,8 @@ private slots:
     void doCmdGroup();
     void doCmdUnGroup();
     void doCmdDeleteSimpleGraphics();
+    void doCmdUpperLayer();
+    void doCmdLowerLayer();
 
     void doUndo();
     void doRedo();

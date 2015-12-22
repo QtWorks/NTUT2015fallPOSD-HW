@@ -65,8 +65,11 @@ void CompositeQGraphicsItem::notifyMove(int x, int y) {
     }
 }
 
+/**
+ * To Handler which GraphicsItem will be Seelcted
+ */
 void CompositeQGraphicsItem::mouseReleaseEvent(QGraphicsSceneMouseEvent *event) {
-    ShapeQGraphicsItem::mouseReleaseEvent(event);
+
     cout << "mouseReleaseEvent\n";
     cout << "IsSelected : " << this->isSelected() << "\n";
 
@@ -82,8 +85,20 @@ void CompositeQGraphicsItem::mouseReleaseEvent(QGraphicsSceneMouseEvent *event) 
 
         for (reverse_iterator<vector<ShapeQGraphicsItem *>::iterator> ri = childs.rbegin(); ri != childs.rend(); ri++) {
             if ((*ri)->isCollision(x, y)) {
-                (*ri)->setSelected(true);
-                (*ri)->_graphics->isSelected = true;
+                if (dynamic_cast<CompositeQGraphicsItem *>(*ri)) {
+                    // this item is composite , maybe something in this composite will be selected
+                    (*ri)->setSelected(true);
+                    (*ri)->_graphics->isSelected = true;
+                    if (!this->w->hasSelectedTarget()) {
+                        this->w->setSelectedTarget((*ri)->_graphics, static_cast<CompositeGraphics *>(this->_graphics));
+                    }
+                } else {
+                    // this item is simpleGraphic , and it target
+
+                    this->w->setSelectedTarget((*ri)->getGraphics(), static_cast<CompositeGraphics *>(this->_graphics));
+                    (*ri)->setSelected(true);
+                    (*ri)->_graphics->isSelected = true;
+                }
                 break;
             } else {
                 (*ri)->setSelected(false);
@@ -91,6 +106,7 @@ void CompositeQGraphicsItem::mouseReleaseEvent(QGraphicsSceneMouseEvent *event) 
         }
     }
     this->w->updateTreeModel();
+    ShapeQGraphicsItem::mouseReleaseEvent(event);
     cout << "Click Point: (" << x << ", " << y << ")\n";
 }
 
@@ -112,17 +128,10 @@ bool CompositeQGraphicsItem::isCollision(int x, int y) {
     for (reverse_iterator<vector<ShapeQGraphicsItem *>::iterator> c = childs.rbegin(); c != childs.rend(); c++) {
         if ((*c)->isCollision(x, y)) {
             (*c)->setSelected(true);
+            this->w->setSelectedTarget((*c)->_graphics, static_cast<CompositeGraphics *>(this->_graphics));
             break;
         }
     }
-
-//    for (auto c : childs) {
-//        if (c->isCollision(x, y)) {
-//            c->setSelected(true);
-//            break;
-//        }
-//    }
-
 
     return true;
 }

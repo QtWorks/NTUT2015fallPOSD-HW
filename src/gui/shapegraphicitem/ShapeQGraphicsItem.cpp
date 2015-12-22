@@ -38,8 +38,6 @@ void ShapeQGraphicsItem::paint(QPainter *painter, const QStyleOptionGraphicsItem
         return;
     }
 
-
-
     if (isSelected() && !_isDraging) {
         painter->setPen(_selectedPen);
         this->draw(painter);
@@ -121,6 +119,9 @@ void ShapeQGraphicsItem::mouseReleaseEvent(QGraphicsSceneMouseEvent *event) {
         if (diffX_int == 0 && diffY == 0) {
             this->scene()->update();
             this->update();
+            if(isSelected()){
+                this->w->setSelectedTarget(this->_graphics, 0);
+            }
             return;
         }
 

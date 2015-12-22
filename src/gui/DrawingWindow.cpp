@@ -1,12 +1,13 @@
 #include "DrawingWindow.h"
 
 #include <fstream>
+#include <utility>
 
 #include <QMenuBar>
 #include <QToolBar>
 #include <QMessageBox>
 #include <QFileDialog>
-#include <QtWidgets/qtoolbutton.h>
+#include <QToolButton>
 #include "QtGraphicsToStandardItemModelVisitor.h"
 #include "gui/shapegraphicitem/ShapeQGraphicsItem.h"
 
@@ -70,6 +71,9 @@ void DrawingWindow::initializeMenuAction() {
     redoAction = new QAction(QIcon("./icon/redo.png"), "redo", this);
     undoAction = new QAction(QIcon("./icon/undo.png"), "undo", this);
 
+    upperLayerAction = new QAction(QIcon("./icon/upperlayer.png"), "upper layer", this);
+    lowerLayerAction = new QAction(QIcon("./icon/lowerlayer.png"), "lower layer", this);
+
     redoAction->setEnabled(false);
     undoAction->setEnabled(false);
 
@@ -93,6 +97,9 @@ void DrawingWindow::setConnect() {
 
     connect(redoAction, SIGNAL(triggered(bool)), this, SLOT(doRedo()));
     connect(undoAction, SIGNAL(triggered(bool)), this, SLOT(doUndo()));
+
+    connect(upperLayerAction, SIGNAL(triggered(bool)), this, SLOT(doCmdUpperLayer()));
+    connect(lowerLayerAction, SIGNAL(triggered(bool)), this, SLOT(doCmdLowerLayer()));
 }
 
 void DrawingWindow::AttachAction() const {
@@ -133,6 +140,11 @@ void DrawingWindow::createToolMenuBar() {
 
     toolMenuBar->addAction(undoAction);
     toolMenuBar->addAction(redoAction);
+
+    toolMenuBar->addSeparator();
+
+    toolMenuBar->addAction(upperLayerAction);
+    toolMenuBar->addAction(lowerLayerAction);
 
     toolMenuBar->addSeparator();
 
@@ -272,12 +284,6 @@ void DrawingWindow::doGroup() {
 
     CompositeGraphics *cg = new CompositeGraphics;
 
-//    for (auto e : mainWidget->getScene()->selectedItems()) {
-//        cg->add(static_cast<ShapeQGraphicsItem *>(e)->getGraphics());
-//        static_cast<RootGraphics *>(this->activateGraphics)->remove(
-//                static_cast<ShapeQGraphicsItem *>(e)->getGraphics());
-//    }
-
     for (auto e : mainWidget->getScene()->items()) {
         if (e->isSelected()) {
             cg->add(static_cast<ShapeQGraphicsItem *>(e)->getGraphics());
@@ -343,7 +349,46 @@ void DrawingWindow::doRedo() {
             this->redoAction->setEnabled(false);
         }
     }
+}
 
+void DrawingWindow::doUpperLayer() {
+    if (hasSelectedTarget()) {
+        vector<Graphics *>::iterator pre = selectedParent->_graphics.begin();
+        vector<Graphics *>::iterator target = selectedParent->_graphics.begin();
+
+        for (auto child = selectedParent->_graphics.begin();
+             child != selectedParent->_graphics.end(); ++child) {
+            if ((*child) == selectedTarget) {
+                target = child;
+                break;
+            }
+            pre = child;
+        }
+        if (pre != target) {
+            iter_swap(pre, target);
+            this->updateScene();
+        }
+    }
+}
+
+void DrawingWindow::doLowerLayer() {
+    if (hasSelectedTarget()) {
+        reverse_iterator<vector<Graphics *>::iterator> pre = selectedParent->_graphics.rbegin();
+        reverse_iterator<vector<Graphics *>::iterator> target = selectedParent->_graphics.rbegin();
+
+        for (reverse_iterator<vector<Graphics *>::iterator> child = selectedParent->_graphics.rbegin();
+             child != selectedParent->_graphics.rend(); ++child) {
+            if ((*child) == selectedTarget) {
+                target = child;
+                break;
+            }
+            pre = child;
+        }
+        if (pre != target) {
+            iter_swap(pre, target);
+            this->updateScene();
+        }
+    }
 }
 
 
@@ -426,3 +471,27 @@ void DrawingWindow::doCmdMovePre() {
     this->activateGraphics->accept(v);
     static_cast<Command *>(this->command_undoCmds.top())->checkpoint = v.getDescription();
 }
+
+void DrawingWindow::setSelectedTarget(Graphics *target, CompositeGraphics *parentContainer) {
+    this->selectedTarget = target;
+    this->selectedParent = parentContainer;
+    if (!parentContainer) {
+        this->selectedParent = static_cast<CompositeGraphics *>(activateGraphics);
+    }
+    cout << "SetSelectedTarget" << endl;
+    cout << this->selectedTarget->getBoundingBox().describe() << endl;
+    cout << "Parent Count : " << this->selectedParent->size() << endl;
+    cout << "\n\n\n";
+}
+
+void DrawingWindow::clearSelectd() {
+    this->selectedParent = 0;
+    this->selectedTarget = 0;
+    cout << "Clear Selected\n";
+}
+
+bool DrawingWindow::hasSelectedTarget() {
+    return (bool) selectedTarget;
+}
+
+

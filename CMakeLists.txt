@@ -24,11 +24,15 @@ include_directories(
 )
 
 set(SOURCE_FILES
-        include/graphics/compositegraphics.h
-        include/graphics/graphics.h
-        include/graphics/GraphicsFactory.h
-        include/graphics/simplegraphics.h
 
+        include/graphics/graphics.h
+        include/graphics/simplegraphics.h
+        include/graphics/compositegraphics.h
+        include/graphics/RootGraphics.h
+        include/graphics/GraphicsFactory.h
+        include/graphics/MultiRootGraphicFactory.h
+
+        include/gui/shapegraphicitem/CompositeQGraphicsItem.h
         include/gui/shapegraphicitem/CircleQGraphicsItem.h
         include/gui/shapegraphicitem/RectangleQGraphicsItem.h
         include/gui/shapegraphicitem/ShapeQGraphicsItem.h
@@ -51,20 +55,33 @@ set(SOURCE_FILES
         include/visitor/DescriptionVisitor.h
         include/visitor/GraphicsVisitor.h
         include/visitor/QtGraphicsViewVisitor.h
+        include/visitor/QtGraphicsToStandardItemModelVisitor.h
+
+        include/commands/CommandManager.h
+        include/commands/cmd/Command.h
+        include/commands/cmd/CreateCircleCmd.h
+        include/commands/cmd/CreateSquareCmd.h
+        include/commands/cmd/CreateRectangleCmd.h
+        include/commands/cmd/GroupCmd.h
+        include/commands/cmd/UnGroupCmd.h
+        include/commands/cmd/DeleteCmd.h
+        include/commands/cmd/MoveCmd.h
 
 
         src/graphices/compositegraphics.cpp
         src/graphices/graphics.cpp
         src/graphices/GraphicsFactory.cpp
         src/graphices/simplegraphics.cpp
+        src/graphices/MultiRootGraphicFactory.cpp
+        src/graphices/RootGraphics.cpp
 
         src/gui/shapegraphicitem/CircleQGraphicsItem.cpp
         src/gui/shapegraphicitem/RectangleQGraphicsItem.cpp
         src/gui/shapegraphicitem/ShapeQGraphicsItem.cpp
         src/gui/shapegraphicitem/SquareQGraphicsItem.cpp
+        src/gui/shapegraphicitem/CompositeQGraphicsItem.cpp
 
         src/gui/CoordinateAxisGraphicsItem.cpp
-
 
 
         src/gui/DrawingArea.cpp
@@ -85,22 +102,29 @@ set(SOURCE_FILES
         src/test/utHW2.h
         src/test/utHW3.h
         src/test/utTryQt.h
+        src/test/utMultiRootGraphics.h
 
         src/visitor/AreaVisitor.cpp
         src/visitor/DescriptionVisitor.cpp
         src/visitor/QtGraphicsViewVisitor.cpp
+        src/visitor/QtGraphicsToStandardItemModelVisitor.cpp
+
+        src/commands/CommandManager.cpp
+        src/commands/cmd/Command.cpp
+        src/commands/cmd/CreateCircleCmd.cpp
+        src/commands/cmd/CreateSquareCmd.cpp
+        src/commands/cmd/CreateRectangleCmd.cpp
+        src/commands/cmd/GroupCmd.cpp
+        src/commands/cmd/UnGroupCmd.cpp
+        src/commands/cmd/DeleteCmd.cpp
+        src/commands/cmd/MoveCmd.cpp
 
         src/main.cpp
 
-
-        src/gui/shapegraphicitem/CompositeQGraphicsItem.cpp
-        include/gui/shapegraphicitem/CompositeQGraphicsItem.h
-
-        src/graphices/RootGraphics.cpp
-        include/graphics/RootGraphics.h
+        )
 
 
-        src/graphices/MultiRootGraphicFactory.cpp include/graphics/MultiRootGraphicFactory.h src/test/utMultiRootGraphics.h src/commands/CommandManager.cpp include/commands/CommandManager.h src/commands/cmd/Command.cpp include/commands/cmd/Command.h src/commands/cmd/CreateCircleCmd.cpp include/commands/cmd/CreateCircleCmd.h src/commands/cmd/CreateSquareCmd.cpp include/commands/cmd/CreateSquareCmd.h src/commands/cmd/CreateRectangleCmd.cpp include/commands/cmd/CreateRectangleCmd.h src/commands/cmd/GroupCmd.cpp include/commands/cmd/GroupCmd.h src/commands/cmd/UnGroupCmd.cpp include/commands/cmd/UnGroupCmd.h src/commands/cmd/DeleteCmd.cpp include/commands/cmd/DeleteCmd.h src/commands/cmd/MoveCmd.cpp include/commands/cmd/MoveCmd.h src/visitor/QtGraphicsToStandardItemModelVisitor.cpp include/visitor/QtGraphicsToStandardItemModelVisitor.h)
+
 
 add_library(cppunitlite STATIC IMPORTED)
 set_property(TARGET cppunitlite PROPERTY IMPORTED_LOCATION ${PROJECT_SOURCE_DIR}/lib/cppunitlite/libcppunitlite.a)
