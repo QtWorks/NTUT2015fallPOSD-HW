@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6" />
+	<Project>
+		<Option title="NTUT2015fallPOSD-HW" />
+		<Option pch_mode="2" />
+		<Option compiler="gcc" />
+		<Build>
+			<Target title="Debug">
+				<Option output="Debug/NTUT2015fallPOSD-HW" prefix_auto="1" extension_auto="1" />
+				<Option object_output="Debug/" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-g" />
+				</Compiler>
+			</Target>
+			<Target title="Release">
+				<Option output="Release/NTUT2015fallPOSD-HW" prefix_auto="1" extension_auto="1" />
+				<Option object_output="Release/" />
+				<Option type="0" />
+				<Option compiler="gcc" />
+				<Linker>
+					<Add option="-s" />
+				</Linker>
+			</Target>
+		</Build>
+		<Compiler>
+			<Add directory="C:/Qt/Qt5.5.0/5.5/mingw492_32/include" />
+			<Add directory="C:/Qt/Qt5.5.0/5.5/mingw492_32/include/ActiveQt" />
+			<Add directory="C:/Qt/Qt5.5.0/5.5/mingw492_32/include/QtCLucene" />
+			<Add directory="C:/Qt/Qt5.5.0/5.5/mingw492_32/include/QtConcurrent" />
+			<Add directory="C:/Qt/Qt5.5.0/5.5/mingw492_32/include/QtCore" />
+			<Add directory="C:/Qt/Qt5.5.0/5.5/mingw492_32/include/QtDeclarative" />
+			<Add directory="C:/Qt/Qt5.5.0/5.5/mingw492_32/include/QtDesigner" />
+			<Add directory="C:/Qt/Qt5.5.0/5.5/mingw492_32/include/QtDesignerComponents" />
+			<Add directory="C:/Qt/Qt5.5.0/5.5/mingw492_32/include/QtGui" />
+			<Add directory="C:/Qt/Qt5.5.0/5.5/mingw492_32/include/QtHelp" />
+			<Add directory="C:/Qt/Qt5.5.0/5.5/mingw492_32/include/QtMultimedia" />
+			<Add directory="C:/Qt/Qt5.5.0/5.5/mingw492_32/include/QtMultimediaQuick_p" />
+			<Add directory="C:/Qt/Qt5.5.0/5.5/mingw492_32/include/QtMultimediaWidgets" />
+			<Add directory="C:/Qt/Qt5.5.0/5.5/mingw492_32/include/QtNetwork" />
+			<Add directory="C:/Qt/Qt5.5.0/5.5/mingw492_32/include/QtOpenGL" />
+			<Add directory="C:/Qt/Qt5.5.0/5.5/mingw492_32/include/QtOpenGLExtensions" />
+			<Add directory="C:/Qt/Qt5.5.0/5.5/mingw492_32/include/QtPlatformSupport" />
+			<Add directory="C:/Qt/Qt5.5.0/5.5/mingw492_32/include/QtPrintSupport" />
+			<Add directory="C:/Qt/Qt5.5.0/5.5/mingw492_32/include/QtQml" />
+			<Add directory="C:/Qt/Qt5.5.0/5.5/mingw492_32/include/QtQuick" />
+			<Add directory="C:/Qt/Qt5.5.0/5.5/mingw492_32/include/QtQuickParticles" />
+			<Add directory="C:/Qt/Qt5.5.0/5.5/mingw492_32/include/QtQuickTest" />
+			<Add directory="C:/Qt/Qt5.5.0/5.5/mingw492_32/include/QtScript" />
+			<Add directory="C:/Qt/Qt5.5.0/5.5/mingw492_32/include/QtScriptTools" />
+			<Add directory="C:/Qt/Qt5.5.0/5.5/mingw492_32/include/QtSensors" />
+			<Add directory="C:/Qt/Qt5.5.0/5.5/mingw492_32/include/QtSerialPort" />
+			<Add directory="C:/Qt/Qt5.5.0/5.5/mingw492_32/include/QtSql" />
+			<Add directory="C:/Qt/Qt5.5.0/5.5/mingw492_32/include/QtSvg" />
+			<Add directory="C:/Qt/Qt5.5.0/5.5/mingw492_32/include/QtTest" />
+			<Add directory="C:/Qt/Qt5.5.0/5.5/mingw492_32/include/QtUiTools" />
+			<Add directory="C:/Qt/Qt5.5.0/5.5/mingw492_32/include/QtV8" />
+			<Add directory="C:/Qt/Qt5.5.0/5.5/mingw492_32/include/QtWebKit" />
+			<Add directory="C:/Qt/Qt5.5.0/5.5/mingw492_32/include/QtWebKitWidgets" />
+			<Add directory="C:/Qt/Qt5.5.0/5.5/mingw492_32/include/QtWidgets" />
+			<Add directory="C:/Qt/Qt5.5.0/5.5/mingw492_32/include/QtXml" />
+			<Add directory="C:/Qt/Qt5.5.0/5.5/mingw492_32/include/QtXmlPatterns" />
+			<Add directory="C:/Qt/Qt5.5.0/5.5/mingw492_32/include/QtZlib" />
+			<Add directory="include" />
+			<Add directory="include/commands/" />
+			<Add directory="include/commands/cmd" />
+			<Add directory="include/graphics" />
+			<Add directory="include/gui/" />
+			<Add directory="include/gui/shapegraphicitem/" />
+			<Add directory="include/shapes/" />
+			<Add directory="include/visitor/" />
+			<Add directory="src/test/" />
+			<Add directory="lib/" />
+		</Compiler>
+		<Linker>
+			<Add library="libQt5Core" />
+			<Add library="libQt5Gui" />
+			<Add library="libQt5Widgets" />
+			<Add library="lib\cppunitlite\libcppunitlite.a" />
+			<Add directory="C:/Qt/Qt5.5.0/5.5/mingw492_32/lib" />
+		</Linker>
+		<Unit filename="include/DrawingController.h" />
+		<Unit filename="include/GraphicsModel.h" />
+		<Unit filename="include/Observable.h" />
+		<Unit filename="include/Observer.h" />
+		<Unit filename="include/commands/Command.h" />
+		<Unit filename="include/commands/CommandManager.h" />
+		<Unit filename="include/commands/cmd/CreateCircleCommand.h" />
+		<Unit filename="include/commands/cmd/CreateRectangleCommand.h" />
+		<Unit filename="include/commands/cmd/CreateSquareCommand.h" />
+		<Unit filename="include/commands/cmd/DeleteCommand.h" />
+		<Unit filename="include/commands/cmd/GroupCommand.h" />
+		<Unit filename="include/commands/cmd/LowerCommand.h" />
+		<Unit filename="include/commands/cmd/MoveCommand.h" />
+		<Unit filename="include/commands/cmd/UngroupCommnad.h" />
+		<Unit filename="include/commands/cmd/UpperCommand.h" />
+		<Unit filename="include/graphics/GraphicsFactory.h" />
+		<Unit filename="include/graphics/MultiRootGraphicFactory.h" />
+		<Unit filename="include/graphics/RootGraphics.h" />
+		<Unit filename="include/graphics/compositegraphics.h" />
+		<Unit filename="include/graphics/graphics.h" />
+		<Unit filename="include/graphics/simplegraphics.h" />
+		<Unit filename="include/gui/CoordinateAxisGraphicsItem.h" />
+		<Unit filename="include/gui/View.h" />
+		<Unit filename="include/gui/shapegraphicitem/CircleQGraphicsItem.h" />
+		<Unit filename="include/gui/shapegraphicitem/CompositeQGraphicsItem.h" />
+		<Unit filename="include/gui/shapegraphicitem/RectangleQGraphicsItem.h" />
+		<Unit filename="include/gui/shapegraphicitem/ShapeQGraphicsItem.h" />
+		<Unit filename="include/gui/shapegraphicitem/SquareQGraphicsItem.h" />
+		<Unit filename="include/shapes/boundingbox.h" />
+		<Unit filename="include/shapes/circle.h" />
+		<Unit filename="include/shapes/line.h" />
+		<Unit filename="include/shapes/point.h" />
+		<Unit filename="include/shapes/rectangle.h" />
+		<Unit filename="include/shapes/shape.h" />
+		<Unit filename="include/shapes/square.h" />
+		<Unit filename="include/visitor/AreaVisitor.h" />
+		<Unit filename="include/visitor/DescriptionVisitor.h" />
+		<Unit filename="include/visitor/GraphicsVisitor.h" />
+		<Unit filename="include/visitor/MoveVisitor.h" />
+		<Unit filename="include/visitor/QtGraphicsToStandardItemModelVisitor.h" />
+		<Unit filename="include/visitor/QtGraphicsViewVisitor.h" />
+		<Unit filename="lib/cppunitlite/Failure.h" />
+		<Unit filename="lib/cppunitlite/SimpleString.h" />
+		<Unit filename="lib/cppunitlite/Test.h" />
+		<Unit filename="lib/cppunitlite/TestHarness.h" />
+		<Unit filename="lib/cppunitlite/TestRegistry.h" />
+		<Unit filename="lib/cppunitlite/TestResult.h" />
+		<Unit filename="src/DrawingController.cpp" />
+		<Unit filename="src/GraphicsModel.cpp" />
+		<Unit filename="src/Observable.cpp" />
+		<Unit filename="src/Observer.cpp" />
+		<Unit filename="src/commands/Command.cpp" />
+		<Unit filename="src/commands/CommandManager.cpp" />
+		<Unit filename="src/commands/cmd/CreateCircleCommand.cpp" />
+		<Unit filename="src/commands/cmd/CreateRectangleCommand.cpp" />
+		<Unit filename="src/commands/cmd/CreateSquareCommand.cpp" />
+		<Unit filename="src/commands/cmd/DeleteCommand.cpp" />
+		<Unit filename="src/commands/cmd/GroupCommand.cpp" />
+		<Unit filename="src/commands/cmd/LowerCommand.cpp" />
+		<Unit filename="src/commands/cmd/MoveCommand.cpp" />
+		<Unit filename="src/commands/cmd/UngroupCommnad.cpp" />
+		<Unit filename="src/commands/cmd/UpperCommand.cpp" />
+		<Unit filename="src/graphices/GraphicsFactory.cpp" />
+		<Unit filename="src/graphices/MultiRootGraphicFactory.cpp" />
+		<Unit filename="src/graphices/RootGraphics.cpp" />
+		<Unit filename="src/graphices/compositegraphics.cpp" />
+		<Unit filename="src/graphices/graphics.cpp" />
+		<Unit filename="src/graphices/simplegraphics.cpp" />
+		<Unit filename="src/gui/CoordinateAxisGraphicsItem.cpp" />
+		<Unit filename="src/gui/View.cpp" />
+		<Unit filename="src/gui/shapegraphicitem/CircleQGraphicsItem.cpp" />
+		<Unit filename="src/gui/shapegraphicitem/CompositeQGraphicsItem.cpp" />
+		<Unit filename="src/gui/shapegraphicitem/RectangleQGraphicsItem.cpp" />
+		<Unit filename="src/gui/shapegraphicitem/ShapeQGraphicsItem.cpp" />
+		<Unit filename="src/gui/shapegraphicitem/SquareQGraphicsItem.cpp" />
+		<Unit filename="src/main.cpp" />
+		<Unit filename="src/qt_moc.cpp" />
+		<Unit filename="src/shapes/boundingbox.cpp" />
+		<Unit filename="src/shapes/circle.cpp" />
+		<Unit filename="src/shapes/line.cpp" />
+		<Unit filename="src/shapes/point.cpp" />
+		<Unit filename="src/shapes/rectangle.cpp" />
+		<Unit filename="src/shapes/shape.cpp" />
+		<Unit filename="src/shapes/square.cpp" />
+		<Unit filename="src/test/original_test.h" />
+		<Unit filename="src/test/ta.h" />
+		<Unit filename="src/test/utGraphicFactory.h" />
+		<Unit filename="src/test/utGraphicsModelObservable.h" />
+		<Unit filename="src/test/utHW1.h" />
+		<Unit filename="src/test/utHW2.h" />
+		<Unit filename="src/test/utHW3.h" />
+		<Unit filename="src/test/utMultiRootGraphics.h" />
+		<Unit filename="src/test/utObserver.h" />
+		<Unit filename="src/test/utTryQt.h" />
+		<Unit filename="src/visitor/AreaVisitor.cpp" />
+		<Unit filename="src/visitor/DescriptionVisitor.cpp" />
+		<Unit filename="src/visitor/MoveVisitor.cpp" />
+		<Unit filename="src/visitor/QtGraphicsToStandardItemModelVisitor.cpp" />
+		<Unit filename="src/visitor/QtGraphicsViewVisitor.cpp" />
+		<Extensions>
+			<code_completion />
+			<envvars />
+			<debugger />
+		</Extensions>
+	</Project>
+</CodeBlocks_project_file>
