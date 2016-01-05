@@ -11,8 +11,9 @@ class RootGraphics : public CompositeGraphics {
 
 public:
     virtual void accept(GraphicsVisitor &graphicsVisitor) override;
-
     virtual void remove(Graphics *g) override;
+    virtual void clear();
+
 };
 
 #endif //POSD_104598003_HW5_ROOTGRAPHICS_H

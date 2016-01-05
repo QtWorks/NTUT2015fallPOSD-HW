@@ -11,7 +11,3 @@ Command::Command() {
 Command::~Command() {
 
 }
-
-Command::Command(DrawingWindow *d) {
-    this->w = d;
-}

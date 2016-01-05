@@ -55,14 +55,15 @@ void CompositeQGraphicsItem::paint(QPainter *painter, const QStyleOptionGraphics
     ShapeQGraphicsItem::paint(painter, option, widget);
 }
 
-void CompositeQGraphicsItem::notifyMove(int x, int y) {
+void CompositeQGraphicsItem::notifyMove(int diffX, int diffY) {
     if (!this->scene()) {
-        _relativeX += x;
-        _relativeY += y;
+        _relativeX += diffX;
+        _relativeY += diffY;
     }
     for (auto c : childs) {
-        c->notifyMove(x, y);
+        c->notifyMove(diffX, diffY);
     }
+    ShapeQGraphicsItem::notifyMove(diffX, diffY);
 }
 
 /**
@@ -72,7 +73,7 @@ void CompositeQGraphicsItem::mouseReleaseEvent(QGraphicsSceneMouseEvent *event) 
     QPoint p = event->pos().toPoint();
     int x = p.x() + static_cast<int>(this->x());
     int y = p.y() + static_cast<int>(this->y());
-    this->w->clearSelectd();
+    this->controller->clearSelectd();
 
     if (isSelected()) {
 
@@ -86,13 +87,19 @@ void CompositeQGraphicsItem::mouseReleaseEvent(QGraphicsSceneMouseEvent *event) 
                     // this item is composite , maybe something in this composite will be selected
                     (*ri)->setSelected(true);
                     (*ri)->_graphics->isSelected = true;
-                    if (!this->w->hasSelectedTarget()) {
-                        this->w->setSelectedTarget((*ri)->_graphics, static_cast<CompositeGraphics *>(this->_graphics));
+                    if (!this->controller->hasSelectedTarget()) {
+                        this->controller->setSelectedTarget((*ri)->_graphics,
+                                                            static_cast<CompositeGraphics *>(this->_graphics));
                     }
+//                    if (!this->w->hasSelectedTarget()) {
+//                        this->w->setSelectedTarget((*ri)->_graphics, static_cast<CompositeGraphics *>(this->_graphics));
+//                    }
                 } else {
                     // this item is simpleGraphic , and it target
 
-                    this->w->setSelectedTarget((*ri)->getGraphics(), static_cast<CompositeGraphics *>(this->_graphics));
+//                    this->w->setSelectedTarget((*ri)->getGraphics(), static_cast<CompositeGraphics *>(this->_graphics));
+                    this->controller->setSelectedTarget((*ri)->getGraphics(),
+                                                        static_cast<CompositeGraphics *>(this->_graphics));
                     (*ri)->setSelected(true);
                     (*ri)->_graphics->isSelected = true;
                 }
@@ -101,11 +108,14 @@ void CompositeQGraphicsItem::mouseReleaseEvent(QGraphicsSceneMouseEvent *event) 
                 (*ri)->setSelected(false);
             }
         }
-        if(!this->w->hasSelectedTarget()){
-            this->w->setSelectedTarget(this->_graphics, 0);
+//        if(!this->w->hasSelectedTarget()){
+//            this->w->setSelectedTarget(this->_graphics, 0);
+//        }
+        if (!this->controller->hasSelectedTarget()) {
+            this->controller->setSelectedTarget(this->_graphics, 0);
         }
     }
-    this->w->updateTreeModel();
+//    this->w->updateTreeModel();
     ShapeQGraphicsItem::mouseReleaseEvent(event);
 }
 
@@ -127,7 +137,8 @@ bool CompositeQGraphicsItem::isCollision(int x, int y) {
     for (reverse_iterator<vector<ShapeQGraphicsItem *>::iterator> c = childs.rbegin(); c != childs.rend(); c++) {
         if ((*c)->isCollision(x, y)) {
             (*c)->setSelected(true);
-            this->w->setSelectedTarget((*c)->_graphics, static_cast<CompositeGraphics *>(this->_graphics));
+//            this->w->setSelectedTarget((*c)->_graphics, static_cast<CompositeGraphics *>(this->_graphics));
+            this->controller->setSelectedTarget((*c)->_graphics, static_cast<CompositeGraphics *>(this->_graphics));
             break;
         }
     }

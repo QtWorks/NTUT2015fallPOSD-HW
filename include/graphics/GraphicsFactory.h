@@ -5,9 +5,11 @@
 #include <stack>
 #include <utility>
 
-class Graphics;
-
 using std::string;
+using std::stack;
+using std::pair;
+
+class Graphics;
 
 class GraphicsFactory {
 public:
@@ -21,10 +23,10 @@ public:
 
     void compose();
 
-    std::stack<std::pair<int, Graphics *>> &getBuildStack() { return _buildStask; }
+    stack<std::pair<int, Graphics *>> &getBuildStack() { return _buildStask; }
 
 protected:
-    std::stack<std::pair<int, Graphics *>> _buildStask;
+    stack<std::pair<int, Graphics *>> _buildStask;
 };
 
 #endif // GRAPHICSFACTORY_H

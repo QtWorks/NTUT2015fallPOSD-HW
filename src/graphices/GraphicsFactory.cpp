@@ -10,7 +10,6 @@
 #include <sstream>
 #include <cstdlib>
 #include <cstdio>
-
 using namespace std;
 
 GraphicsFactory::GraphicsFactory() {

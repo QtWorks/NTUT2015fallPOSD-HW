@@ -1,8 +1,8 @@
-#include <string>
-#include <sstream>
 #include "rectangle.h"
 #include "boundingbox.h"
 
+#include <string>
+#include <sstream>
 using std::string;
 
 Rectangle::Rectangle(int x, int y, int w, int h)

@@ -1,13 +1,11 @@
 #ifndef SIMPLEGRAPHICS_H
 #define SIMPLEGRAPHICS_H
 
-#include <string>
-
 #include "graphics.h"
 #include "shape.h"
-
 #include "GraphicsVisitor.h"
 
+#include <string>
 using std::string;
 
 class SimpleGraphics : public Graphics {

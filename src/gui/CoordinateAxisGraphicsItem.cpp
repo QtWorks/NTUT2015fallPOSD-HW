@@ -4,11 +4,10 @@
 
 #include "CoordinateAxisGraphicsItem.h"
 
-#include <sstream>
-
 #include <QGraphicsScene>
 #include <QPainter>
 
+#include <sstream>
 using namespace std;
 
 void CoordinateAxisGraphicsItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) {

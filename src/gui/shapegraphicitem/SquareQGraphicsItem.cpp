@@ -1,4 +1,4 @@
-#include "gui/shapegraphicitem/SquareQGraphicsItem.h"
+#include "SquareQGraphicsItem.h"
 
 void SquareQGraphicsItem::draw(QPainter *painter) {
     painter->setBrush(Qt::blue);
@@ -35,12 +35,13 @@ void SquareQGraphicsItem::setGraphics(Graphics *g) {
     this->setPos(s->getX(), s->getY());
 }
 
-void SquareQGraphicsItem::notifyMove(int x, int y) {
-    this->s->moveBy(x, y);
+void SquareQGraphicsItem::notifyMove(int diffX, int diffY) {
+    this->s->moveBy(diffX, diffY);
     if (!this->scene()) {
-        _relativeX += x;
-        _relativeY += y;
+        _relativeX += diffX;
+        _relativeY += diffY;
     }
+    ShapeQGraphicsItem::notifyMove(diffX, diffY);
 }
 
 bool SquareQGraphicsItem::isCollision(int x, int y) {

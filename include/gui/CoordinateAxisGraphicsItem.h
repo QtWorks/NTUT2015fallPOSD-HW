@@ -6,7 +6,7 @@
 #define POSD_104598003_HW5_COORDINATEAXISGRAPHICSITEM_H
 
 #include <QGraphicsItem>
-#include <QtGui/qfont.h>
+#include <QFont>
 
 class CoordinateAxisGraphicsItem : public QGraphicsItem {
 

@@ -3,8 +3,6 @@
 
 #include <cppunitlite/TestHarness.h>
 
-#include <iostream>
-
 #include "simplegraphics.h"
 #include "compositegraphics.h"
 #include "circle.h"
@@ -12,8 +10,8 @@
 #include "DescriptionVisitor.h"
 #include "GraphicsVisitor.h"
 
-#include <stdio.h>
-
+#include <iostream>
+#include <cstdio>
 using namespace std;
 
 TEST(DescriptorVisitor, ComplexGraphicTest01) {

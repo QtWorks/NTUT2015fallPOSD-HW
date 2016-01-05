@@ -1,10 +1,10 @@
 #ifndef LINE_H
 #define LINE_H
 
-#include <string>
 #include "shape.h"
 
 using std::string;
+#include <string>
 
 class Line : public Shape {
 private:

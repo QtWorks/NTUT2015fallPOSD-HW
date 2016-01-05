@@ -1,5 +1,4 @@
 #include "compositegraphics.h"
-#include "GraphicsVisitor.h"
 
 void CompositeGraphics::add(Graphics *g) {
 	_graphics.push_back(g);

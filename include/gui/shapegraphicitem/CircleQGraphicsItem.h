@@ -5,7 +5,7 @@
 #ifndef INC_104598003_HW5_CIRCLEQGRAPHICITEM_H
 #define INC_104598003_HW5_CIRCLEQGRAPHICITEM_H
 
-#include "gui/shapegraphicitem/ShapeQGraphicsItem.h"
+#include "ShapeQGraphicsItem.h"
 #include "circle.h"
 #include "simplegraphics.h"
 
@@ -21,7 +21,7 @@ public:
     virtual void dragDraw(QPainter *painter) override;
     virtual QRectF boundingbox() const override;
     virtual QRectF dragBoundingbox() const override;
-    virtual void notifyMove(int x, int y) override;
+    virtual void notifyMove(int diffX, int diffY) override;
 
     virtual bool isCollision(int x, int y) override;
 protected:

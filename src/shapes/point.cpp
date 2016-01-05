@@ -1,5 +1,6 @@
-#include <sstream>
 #include "point.h"
+
+#include <sstream>
 
 Point::Point(int x, int y)
         : Shape("point"), _x(x), _y(y) { }

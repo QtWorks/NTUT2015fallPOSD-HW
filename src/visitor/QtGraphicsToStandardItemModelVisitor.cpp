@@ -7,9 +7,9 @@
 #include "compositegraphics.h"
 #include "graphics.h"
 
-#include <string>
 #include <QString>
 
+#include <string>
 using namespace std;
 
 QtGraphicsToStandardItemModelVisitor::QtGraphicsToStandardItemModelVisitor() {

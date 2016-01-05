@@ -5,11 +5,11 @@
 #ifndef POSD_104598003_HW5_COMPOSITEQGRAPHICSITEM_H
 #define POSD_104598003_HW5_COMPOSITEQGRAPHICSITEM_H
 
-#include <vector>
+#include "boundingbox.h"
 #include "ShapeQGraphicsItem.h"
 #include "compositegraphics.h"
-#include "boundingbox.h"
 
+#include <vector>
 using std::vector;
 
 class CompositeQGraphicsItem : public ShapeQGraphicsItem {
@@ -22,7 +22,7 @@ public:
     virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) override;
     virtual QRectF dragBoundingbox() const override;
     vector<ShapeQGraphicsItem *> childs;
-    virtual void notifyMove(int x, int y) override;
+    virtual void notifyMove(int diffX, int diffY) override;
 
     virtual bool isCollision(int x, int y) override;
 protected:

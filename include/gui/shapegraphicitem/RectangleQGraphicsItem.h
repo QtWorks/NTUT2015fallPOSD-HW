@@ -5,10 +5,9 @@
 #ifndef INC_104598003_HW5_RECTANGLEQGRAPHICITEM_H
 #define INC_104598003_HW5_RECTANGLEQGRAPHICITEM_H
 
-
-#include "gui/shapegraphicitem/ShapeQGraphicsItem.h"
 #include "rectangle.h"
 #include "simplegraphics.h"
+#include "ShapeQGraphicsItem.h"
 
 class RectangleQGraphicsItem : public ShapeQGraphicsItem {
 
@@ -25,7 +24,7 @@ public:
     virtual QRectF boundingbox() const override;
     virtual QRectF dragBoundingbox() const override;
     virtual void setGraphics(Graphics *g) override;
-    virtual void notifyMove(int x, int y) override;
+    virtual void notifyMove(int diffX, int diffY) override;
 
     virtual bool isCollision(int x, int y) override;
 protected:

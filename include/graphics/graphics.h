@@ -2,7 +2,6 @@
 #define GRAPHICS_H
 
 #include "boundingbox.h"
-
 #include "GraphicsVisitor.h"
 
 class Graphics {

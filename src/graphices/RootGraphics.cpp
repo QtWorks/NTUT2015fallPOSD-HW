@@ -19,3 +19,7 @@ void RootGraphics::remove(Graphics *g) {
         }
     }
 }
+
+void RootGraphics::clear() {
+    _graphics.clear();
+}

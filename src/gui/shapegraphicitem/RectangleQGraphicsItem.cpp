@@ -1,4 +1,4 @@
-#include "gui/shapegraphicitem/RectangleQGraphicsItem.h"
+#include "RectangleQGraphicsItem.h"
 
 void RectangleQGraphicsItem::draw(QPainter *painter) {
     painter->setBrush(Qt::blue);
@@ -33,12 +33,13 @@ void RectangleQGraphicsItem::setGraphics(Graphics *g) {
     this->setPos(r->getX(), r->getY());
 }
 
-void RectangleQGraphicsItem::notifyMove(int x, int y) {
-    this->r->moveBy(x, y);
+void RectangleQGraphicsItem::notifyMove(int diffX, int diffY) {
+    this->r->moveBy(diffX, diffY);
     if (!this->scene()) {
-        _relativeX += x;
-        _relativeY += y;
+        _relativeX += diffX;
+        _relativeY += diffY;
     }
+    ShapeQGraphicsItem::notifyMove(diffX, diffY);
 }
 
 bool RectangleQGraphicsItem::isCollision(int x, int y) {

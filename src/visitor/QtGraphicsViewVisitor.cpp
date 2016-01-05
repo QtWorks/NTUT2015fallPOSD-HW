@@ -2,11 +2,10 @@
 
 #include "simplegraphics.h"
 #include "compositegraphics.h"
-
-#include "gui/shapegraphicitem/CircleQGraphicsItem.h"
-#include "gui/shapegraphicitem/RectangleQGraphicsItem.h"
-#include "gui/shapegraphicitem/SquareQGraphicsItem.h"
-#include "gui/shapegraphicitem/CompositeQGraphicsItem.h"
+#include "CircleQGraphicsItem.h"
+#include "RectangleQGraphicsItem.h"
+#include "SquareQGraphicsItem.h"
+#include "CompositeQGraphicsItem.h"
 
 #include <stack>
 
@@ -35,7 +34,7 @@ void QtGraphicsViewVisitor::visitSimpleGraphic(SimpleGraphics *graphics) {
         item = new CircleQGraphicsItem(graphics);
     }
     item->setPen(*blackPen);
-    item->w = this->w;
+    item->controller = controller;
 
     if (v.empty()) {
 //        scene->addItem(item);
@@ -59,7 +58,7 @@ void QtGraphicsViewVisitor::visitCompositeGraphic(CompositeGraphics *graphics) {
     cqg->_relativeX = graphics->getBoundingBox().getX();
     cqg->_relativeY = graphics->getBoundingBox().getY();
     cqg->setPen(*greenPen);
-    cqg->w = this->w;
+    cqg->controller = controller;
     v.push(cqg);
 }
 

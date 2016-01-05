@@ -6,6 +6,7 @@
 #define DESCRIPTIONVISITOR_H
 
 #include "GraphicsVisitor.h"
+
 #include <vector>
 #include <utility>
 #include <string>
@@ -18,7 +19,6 @@ using std::vector;
 using std::stack;
 
 class SimpleGraphics;
-
 class CompositeGraphics;
 
 class DescriptionVisitor : public GraphicsVisitor {

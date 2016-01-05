@@ -1,9 +1,9 @@
 #include "circle.h"
-#include <vector>
-#include <sstream>
 #include "shape.h"
 #include "boundingbox.h"
 
+#include <vector>
+#include <sstream>
 using std::vector;
 
 Shape::Shape(string name)

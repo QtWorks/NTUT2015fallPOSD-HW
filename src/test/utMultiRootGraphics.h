@@ -7,10 +7,6 @@
 
 #include "cppunitlite/TestHarness.h"
 
-#include <iostream>
-#include <sstream>
-#include <string>
-
 #include "RootGraphics.h"
 #include "simplegraphics.h"
 #include "circle.h"
@@ -20,6 +16,9 @@
 #include "DescriptionVisitor.h"
 #include "MultiRootGraphicFactory.h"
 
+#include <iostream>
+#include <sstream>
+#include <string>
 using namespace std;
 
 TEST(MultipleRootGraphics, DescribeTest) {

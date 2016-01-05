@@ -7,6 +7,8 @@
 #include "ta.h"
 #include "utGraphicFactory.h"
 #include "utMultiRootGraphics.h"
+#include "utGraphicsModelObservable.h"
+#include "utObserver.h"
 #include "utTryQt.h"
 
 int main(int argc, char **argv) {

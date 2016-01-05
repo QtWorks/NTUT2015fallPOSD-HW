@@ -1,7 +1,6 @@
 #ifndef CIRCLE_H
 #define CIRCLE_H
 
-#include <string>
 #include "shape.h"
 
 class Circle : public Shape {

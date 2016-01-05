@@ -1,5 +1,6 @@
-#include "gui/shapegraphicitem/CircleQGraphicsItem.h"
+#include "CircleQGraphicsItem.h"
 #include "circle.h"
+
 #include <cmath>
 
 void CircleQGraphicsItem::setGraphics(Graphics *g) {
@@ -42,14 +43,15 @@ CircleQGraphicsItem::CircleQGraphicsItem() : ShapeQGraphicsItem() {
     this->setPos(0, 0);
 }
 
-void CircleQGraphicsItem::notifyMove(int x, int y) {
+void CircleQGraphicsItem::notifyMove(int diffX, int diffY) {
     if (c) {
-        this->c->moveBy(x, y);
+        this->c->moveBy(diffX, diffY);
     }
     if (!this->scene()) {
-        _relativeX += x;
-        _relativeY += y;
+        _relativeX += diffX;
+        _relativeY += diffY;
     }
+    ShapeQGraphicsItem::notifyMove(diffX, diffY);
 }
 
 bool CircleQGraphicsItem::isCollision(int x, int y) {

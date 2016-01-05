@@ -1,9 +1,9 @@
 #ifndef COMPOSITEGRAPHICS_H
 #define COMPOSITEGRAPHICS_H
 
-#include <vector>
 #include "graphics.h"
 
+#include <vector>
 using std::vector;
 
 class CompositeGraphics : public Graphics {

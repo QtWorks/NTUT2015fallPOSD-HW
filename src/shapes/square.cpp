@@ -1,6 +1,7 @@
-#include <sstream>
 #include "square.h"
 #include "boundingbox.h"
+
+#include <sstream>
 
 Square::Square(int llx, int lly, int length)
         : Shape("square"), _llx(llx), _lly(lly), _length(length) { }

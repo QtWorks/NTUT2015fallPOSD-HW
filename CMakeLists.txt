@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.3)
-project(POSD_104598003_HW5)
+project(POSD_104598003_HW7)
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
 
@@ -38,8 +38,7 @@ set(SOURCE_FILES
         include/gui/shapegraphicitem/ShapeQGraphicsItem.h
         include/gui/shapegraphicitem/SquareQGraphicsItem.h
 
-        include/gui/DrawingArea.h
-        include/gui/DrawingWindow.h
+        include/gui/View.h
 
         include/gui/CoordinateAxisGraphicsItem.h
 
@@ -56,19 +55,26 @@ set(SOURCE_FILES
         include/visitor/GraphicsVisitor.h
         include/visitor/QtGraphicsViewVisitor.h
         include/visitor/QtGraphicsToStandardItemModelVisitor.h
+        include/visitor/MoveVisitor.h
 
         include/commands/CommandManager.h
-        include/commands/cmd/Command.h
-        include/commands/cmd/CreateCircleCmd.h
-        include/commands/cmd/CreateSquareCmd.h
-        include/commands/cmd/CreateRectangleCmd.h
-        include/commands/cmd/GroupCmd.h
-        include/commands/cmd/UnGroupCmd.h
-        include/commands/cmd/DeleteCmd.h
-        include/commands/cmd/MoveCmd.h
-        include/commands/cmd/UpperLayerCmd.h
-        include/commands/cmd/LowerLayerCmd.h
+        include/commands/Command.h
+        include/commands/cmd/CreateCircleCommand.h
+        include/commands/cmd/CreateRectangleCommand.h
+        include/commands/cmd/CreateSquareCommand.h
+        include/commands/cmd/DeleteCommand.h
+        include/commands/cmd/GroupCommand.h
+        include/commands/cmd/UngroupCommnad.h
+        include/commands/cmd/UpperCommand.h
+        include/commands/cmd/LowerCommand.h
+        include/commands/cmd/MoveCommand.h
 
+
+        include/DrawingController.h
+        include/GraphicsModel.h
+
+        include/Observable.h
+        include/Observer.h
 
         src/graphices/compositegraphics.cpp
         src/graphices/graphics.cpp
@@ -83,11 +89,9 @@ set(SOURCE_FILES
         src/gui/shapegraphicitem/SquareQGraphicsItem.cpp
         src/gui/shapegraphicitem/CompositeQGraphicsItem.cpp
 
+        src/gui/View.cpp
+
         src/gui/CoordinateAxisGraphicsItem.cpp
-
-
-        src/gui/DrawingArea.cpp
-        src/gui/DrawingWindow.cpp
 
         src/shapes/boundingbox.cpp
         src/shapes/circle.cpp
@@ -105,35 +109,40 @@ set(SOURCE_FILES
         src/test/utHW3.h
         src/test/utTryQt.h
         src/test/utMultiRootGraphics.h
+        src/test/utGraphicsModelObservable.h
+        src/test/utObserver.h
 
         src/visitor/AreaVisitor.cpp
         src/visitor/DescriptionVisitor.cpp
         src/visitor/QtGraphicsViewVisitor.cpp
         src/visitor/QtGraphicsToStandardItemModelVisitor.cpp
+        src/visitor/MoveVisitor.cpp
 
         src/commands/CommandManager.cpp
-        src/commands/cmd/Command.cpp
-        src/commands/cmd/CreateCircleCmd.cpp
-        src/commands/cmd/CreateSquareCmd.cpp
-        src/commands/cmd/CreateRectangleCmd.cpp
-        src/commands/cmd/GroupCmd.cpp
-        src/commands/cmd/UnGroupCmd.cpp
-        src/commands/cmd/DeleteCmd.cpp
-        src/commands/cmd/MoveCmd.cpp
-        src/commands/cmd/UpperLayerCmd.cpp
-        src/commands/cmd/LowerLayerCmd.cpp
+        src/commands/Command.cpp
+        src/commands/cmd/CreateCircleCommand.cpp
+        src/commands/cmd/CreateRectangleCommand.cpp
+        src/commands/cmd/CreateSquareCommand.cpp
+        src/commands/cmd/DeleteCommand.cpp
+        src/commands/cmd/GroupCommand.cpp
+        src/commands/cmd/UngroupCommnad.cpp
+        src/commands/cmd/UpperCommand.cpp
+        src/commands/cmd/LowerCommand.cpp
+        src/commands/cmd/MoveCommand.cpp
+
+        src/DrawingController.cpp
+        src/GraphicsModel.cpp
+
+        src/Observable.cpp
+        src/Observer.cpp
 
         src/main.cpp
-
         )
 
-
-
-
 add_library(cppunitlite STATIC IMPORTED)
-set_property(TARGET cppunitlite PROPERTY IMPORTED_LOCATION ${PROJECT_SOURCE_DIR}/lib/cppunitlite/libcppunitlite.a)
+set_property(TARGET cppunitlite PROPERTY IMPORTED_LOCATION /Users/raccoon/Documents/Projects/CppUnitLite/bin/Debug/libCppUnitLite.a)
 
-add_executable(POSD_104598003_HW5 ${SOURCE_FILES})
+add_executable(POSD_104598003_HW7 ${SOURCE_FILES})
 
-target_link_libraries(POSD_104598003_HW5 cppunitlite)
-target_link_libraries(POSD_104598003_HW5 Qt5::Widgets)
+target_link_libraries(POSD_104598003_HW7 cppunitlite)
+target_link_libraries(POSD_104598003_HW7 Qt5::Widgets)

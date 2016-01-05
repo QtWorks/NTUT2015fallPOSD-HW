@@ -1,9 +1,10 @@
 #ifndef RECTANGLE_H
 #define RECTANGLE_H
 
-#include <string>
 #include "shape.h"
 #include "point.h"
+
+#include <string>
 
 class Rectangle : public Shape {
 private:

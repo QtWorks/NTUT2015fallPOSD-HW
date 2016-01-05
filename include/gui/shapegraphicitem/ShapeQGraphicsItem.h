@@ -1,15 +1,15 @@
 #ifndef INC_104598003_HW5_SHAPEQGRAPHICSITEM_H
 #define INC_104598003_HW5_SHAPEQGRAPHICSITEM_H
 
+#include "graphics.h"
+#include "DrawingController.h"
+
 #include <QGraphicsItem>
 #include <QGraphicsSceneMouseEvent>
 #include <QPen>
 #include <QPainter>
+
 #include <iostream>
-
-#include "graphics/graphics.h"
-#include "DrawingWindow.h"
-
 using namespace std;
 
 class ShapeQGraphicsItem : public QGraphicsItem {
@@ -30,12 +30,12 @@ public:
 
     virtual bool isCollision(int x, int y);
 
-    DrawingWindow *w;
+    DrawingController *controller;
 
     int _relativeX = 0;
     int _relativeY = 0;
 
-    virtual void notifyMove(int x, int y);
+    virtual void notifyMove(int diffX, int diffY);
 
     Graphics *_graphics = 0;
 

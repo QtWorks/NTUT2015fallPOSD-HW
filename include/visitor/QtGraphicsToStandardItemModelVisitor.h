@@ -7,9 +7,9 @@
 
 #include "GraphicsVisitor.h"
 
-#include <stack>
 #include <QStandardItemModel>
 
+#include <stack>
 using std::stack;
 
 class QtGraphicsToStandardItemModelVisitor : public GraphicsVisitor {

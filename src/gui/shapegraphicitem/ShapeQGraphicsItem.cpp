@@ -2,7 +2,7 @@
 // Created by Raccoon on 2015/12/7.
 //
 
-#include "gui/shapegraphicitem/ShapeQGraphicsItem.h"
+#include "ShapeQGraphicsItem.h"
 #include "simplegraphics.h"
 #include <QGraphicsScene>
 
@@ -29,7 +29,7 @@ void ShapeQGraphicsItem::setPen(QPen &pen) {
  */
 void ShapeQGraphicsItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) {
     this->_graphics->isSelected = this->isSelected();
-    this->w->updateTreeModel();
+//    this->w->updateTreeModel();
     if (!this->scene()) {
         painter->setPen(_pen);
         if (isSelected()) {
@@ -107,8 +107,8 @@ void ShapeQGraphicsItem::mouseMoveEvent(QGraphicsSceneMouseEvent *event) {
 }
 
 void ShapeQGraphicsItem::mouseReleaseEvent(QGraphicsSceneMouseEvent *event) {
-    if(dynamic_cast<SimpleGraphics *>(this->_graphics) && this->scene()){
-        this->w->clearSelectd();
+    if (dynamic_cast<SimpleGraphics *>(this->_graphics) && this->scene()) {
+        this->controller->clearSelectd();
     }
     QGraphicsItem::mouseReleaseEvent(event);
     if (_isDraging) {
@@ -123,39 +123,29 @@ void ShapeQGraphicsItem::mouseReleaseEvent(QGraphicsSceneMouseEvent *event) {
         if (diffX_int == 0 && diffY == 0) {
             this->scene()->update();
             this->update();
-            if(dynamic_cast<SimpleGraphics *>(this->_graphics) && this->scene()){
+            if (dynamic_cast<SimpleGraphics *>(this->_graphics) && this->scene()) {
                 cout << "\n\nThis is direct attach to root Simple Item\n\n";
-                if(this->isSelected()){
-                    this->w->setSelectedTarget(this->_graphics, 0);
+                if (this->isSelected()) {
+                    this->controller->setSelectedTarget(this->_graphics, 0);
                 }
             }
             return;
+        } else {
+            _x = 0;
+            _y = 0;
+            this->scene()->setSceneRect(this->scene()->itemsBoundingRect());
+
+            this->setSelected(false);
+            this->_graphics->isSelected = false;
+
+            this->scene()->update();
+            this->update();
+
+            this->controller->onItemMove(this, diffX_int, diffY_int);
         }
 
-        this->w->doCmdMovePre();
 
-        this->_x += diffX_int;
-        this->_y += diffY_int;
-
-        QPointF currentPoint = pos();
-
-        this->setPos(pos().x() + _x, pos().y() + _y);
-        this->notifyMove(_x, _y);
-
-        this->w->doCmdMove();
-
-        _x = 0;
-        _y = 0;
-        this->scene()->setSceneRect(this->scene()->itemsBoundingRect());
-
-        this->setSelected(false);
-        this->_graphics->isSelected = false;
-
-        this->scene()->update();
-        this->update();
     }
-    this->w->updateTreeModel();
-
 }
 
 void ShapeQGraphicsItem::setGraphics(Graphics *g) {
@@ -167,7 +157,9 @@ ShapeQGraphicsItem::ShapeQGraphicsItem(Graphics *g)
     this->setGraphics(g);
 }
 
-void ShapeQGraphicsItem::notifyMove(int x, int y) {
+void ShapeQGraphicsItem::notifyMove(int diffX, int diffY) {
+    QPointF currentPoint = pos();
+    this->setPos(pos().x() + _x, pos().y() + _y);
 }
 
 Graphics *ShapeQGraphicsItem::getGraphics() {

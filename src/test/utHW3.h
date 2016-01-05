@@ -3,9 +3,7 @@
 
 #include "cppunitlite/TestHarness.h"
 
-#include <sstream>
-#include <iostream>
-#include <typeinfo>
+
 #include "GraphicsFactory.h"
 #include "graphics.h"
 #include "compositegraphics.h"
@@ -15,6 +13,9 @@
 #include "square.h"
 #include "rectangle.h"
 
+#include <sstream>
+#include <iostream>
+#include <typeinfo>
 using namespace std;
 
 // For the function buildGraphicsFromFile

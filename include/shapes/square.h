@@ -1,9 +1,9 @@
 #ifndef SQUARE_H
 #define SQUARE_H
 
-#include <string>
 #include "shape.h"
 
+#include <string>
 using std::string;
 
 class Square : public Shape {
