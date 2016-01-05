@@ -337,7 +337,6 @@ void DrawingController::updateScene() {
 }
 
 void DrawingController::onItemSelected() {
-    cout << "View Event : itemSelected" << endl;
     this->clearSelectd();
     this->updateActionState();
 }
@@ -358,7 +357,6 @@ QList<QGraphicsItem *> DrawingController::getGraphicsItems() {
 
 
 void DrawingController::setSelectedTarget(Graphics *target, CompositeGraphics *parentContainer) {
-    cout << "test" << endl;
     this->selectedTarget = target;
     this->selectedParent = parentContainer;
     if (!parentContainer) {

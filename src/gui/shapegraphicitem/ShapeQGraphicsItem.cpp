@@ -124,7 +124,6 @@ void ShapeQGraphicsItem::mouseReleaseEvent(QGraphicsSceneMouseEvent *event) {
             this->scene()->update();
             this->update();
             if (dynamic_cast<SimpleGraphics *>(this->_graphics) && this->scene()) {
-                cout << "\n\nThis is direct attach to root Simple Item\n\n";
                 if (this->isSelected()) {
                     this->controller->setSelectedTarget(this->_graphics, 0);
                 }

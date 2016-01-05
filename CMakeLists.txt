@@ -23,6 +23,19 @@ include_directories(
         lib
 )
 
+set(CPPUNITLITE_SOURCE_FILES
+        lib/cppunitlite/Failure.cpp
+        lib/cppunitlite/SimpleString.cpp
+        lib/cppunitlite/Test.cpp
+        lib/cppunitlite/TestRegistry.cpp
+        lib/cppunitlite/TestResult.cpp
+
+        lib/cppunitlite/Test.h
+        lib/cppunitlite/TestRegistry.h
+        lib/cppunitlite/TestResult.h
+        lib/cppunitlite/TestHarness.h
+        )
+
 set(SOURCE_FILES
 
         include/graphics/graphics.h
@@ -139,9 +152,7 @@ set(SOURCE_FILES
         src/main.cpp
         )
 
-add_library(cppunitlite STATIC IMPORTED)
-set_property(TARGET cppunitlite PROPERTY IMPORTED_LOCATION /Users/raccoon/Documents/Projects/CppUnitLite/bin/Debug/libCppUnitLite.a)
-
+add_library(cppunitlite ${CPPUNITLITE_SOURCE_FILES})
 add_executable(POSD_104598003_HW7 ${SOURCE_FILES})
 
 target_link_libraries(POSD_104598003_HW7 cppunitlite)
